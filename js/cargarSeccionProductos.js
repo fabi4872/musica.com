@@ -15,7 +15,7 @@ class Producto{
 
 const productos = [];
 
-const producto1 = new Producto("kurzweil_sp2x", "Kurzweil", "Sp2x", "Piano eléctrico Kurzweil Sp2x, 88 teclas con peso piano martillo", 6, 1500, 200000, 10);
+const producto1 = new Producto("cort_x250_bk", "Kurzweil", "Sp2x", "Piano eléctrico Kurzweil Sp2x, 88 teclas con peso piano martillo", 6, 1500, 200000, 10);
 const producto2 = new Producto("cort_x250_bk", "Cort", "X250-bk", "Guitarra eléctrica Cort X250-BK, cuerpo sólido con dos cutaways", 12, 700, 300000, 5);
 const producto3 = new Producto("knight_jbts_100", "Knight", "Jbts-100", "Saxo tenor Knight JBTS-100 Laqueado, llave de F#", 9, 2500, 400000, 2);
 const producto4 = new Producto("focusrite_scarlett_2i4", "Focusrite", "Scarlett 2i4", "Placa de sonido Focusrite Scarlett 2i4 USB", 12, 350, 100000, 25);
@@ -37,7 +37,7 @@ productos.forEach((producto) => {
     imageContainer.className = "cardProducto__imageContainer";
 
     //Seteo de atributos y clase de la imagen
-    cardImage.setAttribute("src", `../assets/${producto.Imagen}.jpg`);
+    cardImage.setAttribute("src", `./assets/${producto.Imagen}.jpg`);
     cardImage.setAttribute("alt", "Imagen de producto");
     cardImage.className = "card-img-top cardProducto__imagen";
 
