@@ -1,0 +1,142 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+.body{
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 20% auto 20%;
+    grid-template-rows: 5rem auto auto;
+    grid-template-areas: "header header header"
+                         "main main main"
+                         "footer footer footer";
+}
+
+
+
+.header{
+    grid-area: header; 
+    background-color: #333333;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.header__logo{
+    margin-left: 4rem;
+    color: tomato;
+}
+
+
+
+.main{
+    grid-area: main;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.seccionProductos{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 6rem 0;
+}
+.cardProducto{
+    width: 20rem;
+    margin: 1rem;
+    padding: 0 1rem;
+    border-radius: 0;
+}
+.cardProducto__imageContainer{
+    width: auto;
+    height: 10rem;
+}
+.cardProducto__imagen{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.cardProducto__body{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+.cardProducto__marca{
+    margin-bottom: 1rem;
+}
+.cardProducto__descripcion{
+    font-style: italic;
+}
+.cardProducto__precio{
+    margin-bottom: 1.2rem;
+}
+.cardProducto__strongPrecio{
+    color: tomato;
+}
+.cardProducto__info{
+    font-size: 1rem;
+}
+.cardProducto__strong{
+    color: #333333;
+}
+.cardProducto__botonContainer{
+    width: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 1.7rem;
+}
+.cardProducto__boton{
+    padding-bottom: 0.8rem;
+    width: 7rem;
+    border-radius: 0;
+}
+.cardProducto__icon{
+    margin-right: 0.5rem;
+    color: green;
+}
+
+
+
+.footer {
+    grid-area: footer;
+    background-color: #0f0f7c;
+    background: -moz-linear-gradient(320deg, #0f0f7c 0%, #0f1687 25%, #17206f 50%, #0a0c5e 75%, #03207d 100%);
+    background: -webkit-linear-gradient(320deg, #0f0f7c 0%, #0f1687 25%, #17206f 50%, #0a0c5e 75%, #03207d 100%);
+    background: linear-gradient(320deg, #0f0f7c 0%, #0f1687 25%, #17206f 50%, #0a0c5e 75%, #03207d 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0f0f7c", endColorstr="#03207d", GradientType=1);
+}
+.footer__list {
+    list-style-type: none;
+    margin: 2rem 0; 
+}
+.footer__list a:hover {
+    color: white; 
+}
+.footer__titleH5 {
+    color: white; 
+}
+.footer__item {
+    text-decoration: none;
+    line-height: 1.7rem;
+    font-family: "Poppins";
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: #869FB2; 
+}
+.footer__item i {
+    font-size: 1.5rem; 
+}
+.footer__item i:hover {
+    color: white; 
+}
