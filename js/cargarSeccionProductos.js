@@ -37,7 +37,7 @@ productos.forEach((producto) => {
     imageContainer.className = "cardProducto__imageContainer";
 
     //Seteo de atributos y clase de la imagen
-    cardImage.setAttribute("src", `./assets/${producto.Imagen}.jpg`);
+    cardImage.setAttribute("src", `assets/${producto.Imagen}.jpg`);
     cardImage.setAttribute("alt", "Imagen de producto");
     cardImage.className = "card-img-top cardProducto__imagen";
 
