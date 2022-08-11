@@ -43,6 +43,21 @@
 
 
 
+.seccionCarrito{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 6rem;
+}
+.cardProductoCarrito{
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: 0;
+}
+
+
+
 .seccionProductos{
     display: flex;
     flex-wrap: wrap;

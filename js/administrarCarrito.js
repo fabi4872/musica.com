@@ -1,154 +1,112 @@
-let productos = [];
+class ProductoCarrito{
+    constructor(producto){
+        this.Imagen = producto.Imagen, 
+        this.Marca = producto.Marca, 
+        this.Modelo = producto.Modelo, 
+        this.Descripcion = producto.Descripcion, 
+        this.Precio = producto.Precio,
+        this.Envio = producto.Envio,
+        this.SubTotalPrecio = producto.Precio,
+        this.SubTotalEnvio = producto.Envio, 
+        this.Cantidad = 1
+    }
+
+    actualizarSubTotalPrecio(precio){
+        this.SubTotalPrecio += precio;
+    }
+
+    actualizarSubTotalEnvio(envio){
+        this.SubTotalEnvio += envio;
+    }
+
+    actualizarCantidad(){
+        this.Cantidad = this.Cantidad + 1;
+    }
+}
+
+
+
+//Declaración de variables
 let productosCarrito = [];
-let detalleProductos = [];
-let cuponDescuento = "";
-let descripcionDescuentoProducto = "";
-let descripcionProductos = "";
-let descripcionPromptAgregarProductos = "";
-let descripcionPromptProducto = "";
-let importeTotalSinDescuentos = 0;
-let opcion;
-let codigoProducto;
-let cantidad;
+let botones = document.getElementsByClassName("cardProducto__boton");
 
 
-class Producto{
-    constructor(codigo, descripcion, precio, cantidad){
-        this.codigo = codigo,
-        this.descripcion = descripcion.toUpperCase(),
-        this.precio = parseFloat(precio),
-        this.cantidad = cantidad
-    }
-
-    implementarDescuentoDiezPorCiento(){
-        this.precio = this.precio * 0.9;
+function validarStockProductoActualizarBotonAgregar(indiceProducto, cantidadStock){
+    if(cantidadStock < 1){
+        botones[indiceProducto].remove();
+        let botonesContainers = document.getElementsByClassName("cardProducto__botonContainer");
+        botonesContainers[indiceProducto].innerHTML += `<button class="btn btn-primary cardProducto__boton" disabled>Agregar</button>`;
     }
 }
 
 
-//-------- Funciones --------
-function cargarProductosEnStock(){
-    const producto1 = new Producto(1, "Piano", 190000, 2);
-    const producto2 = new Producto(2, "Saxofon", 600000, 1);
-    const producto3 = new Producto(3, "Flauta", 100000, 3);
-    const producto4 = new Producto(4, "Guitarra", 200000, 2);
-    const producto5 = new Producto(5, "Bateria", 700000, 2);
-
-    productos.push(producto1, producto2, producto3, producto4, producto5);
-
-    detalleProductos = productos.map((producto) => {
-        return {
-            codigo: producto.codigo,
-            descripcion: producto.descripcion
-        }
-    });
-
-    descripcionProductos = "";
-    detalleProductos.forEach((producto) => descripcionProductos += producto.codigo + ". " + producto.descripcion + "\n");
-    descripcionProductos += "0. Volver";
-}
-
-function solicitarIngreso(cadena){
-    return prompt(cadena);
-}
-
-function obtenerDescripcionPromptOperacion(){
-    return "CARRITO\n1. Agregar productos\n2. Confirmar carrito\n\nOPERACIÓN";
-}
-
-function obtenerDescripcionPromptAgregarProductos(detalleProductos){
-    return "AGREGAR PRODUCTOS\n" + detalleProductos + "\n\nPRODUCTO";
-}
-
-function obtenerDescripcionPromptProducto(producto){
-    return "DETALLE DE PRODUCTO SELECCIONADO" + "\nCódigo: " + producto.codigo + "\nDescripción: " + producto.descripcion + "\nPrecio: ARS " + producto.precio + "\nStock: " + producto.cantidad + "\n\nCANTIDAD"; 
-}
-
-function obtenerDescripcionPromptCupon(){
-    return "INGRESE OFF2022 PARA OBTENER 10% DE DESCUENTO\n\nCUPÓN";
-}
-
-function informarEnConsola(mensaje){
-    console.log(mensaje);
-}
-
-function aplicarDescuento(descripcionDescuento, producto){
-    let resultado = "";
-    if(descripcionDescuento == "OFF2022"){
-        resultado = "ARS " + (producto.precio*0.1); 
-        producto.implementarDescuentoDiezPorCiento();
-        return resultado;
-    }
+function armarRetornarElementoCarrito(producto){
+    let cardProductoCarrito = document.createElement("div");
+    let cardProductoCarritoBody = document.createElement("div");
+    cardProductoCarrito.className = "card cardProductoCarrito";
+    cardProductoCarritoBody.className = "card-body cardProductoCarrito__body";
     
-    return "No aplica";
+    cardProductoCarritoBody.innerHTML = `
+        <h5 class="card-title cardProductoCarrito__marca">${producto.Marca}</h5>
+        <h6 class="card-subtitle mb-2 text-muted cardProductoCarrito__modelo">Modelo ${producto.Modelo}</h6>
+        <p class="card-text cardProductoCarrito__descripcion">${producto.Descripcion}</p>
+        <h6 class="cardProductoCarrito__precio">Precio unitario: <strong class="cardProductoCarrito__strongPrecio">ARS ${producto.Precio}</strong><h6/>
+        <h6 class="cardProductoCarrito__envio">Precio de envío: <strong class="cardProductoCarrito__strongEnvio">ARS ${producto.Envio}</strong><h6/>
+        <h6 class="cardProductoCarrito__cantidad">CANTIDAD: <strong class="cardProductoCarrito__strongCantidad">${producto.Cantidad}</strong><h6/>
+        <h6 class="cardProductoCarrito__subTotalEnvio">SUBTOTAL ENVIO: <strong class="cardProductoCarrito__strongSubTotalEnvio">ARS ${producto.SubTotalEnvio}</strong><h6/>
+        <h6 class="cardProductoCarrito__subTotalPrecio">SUBTOTAL PRECIO: <strong class="cardProductoCarrito__strongSubTotalPrecio">ARS ${producto.SubTotalPrecio}</strong><h6/>
+    `;
+
+    cardProductoCarrito.appendChild(cardProductoCarritoBody);
+    
+    return cardProductoCarrito;
 }
+    
 
-const sumarImporte = (variable, importe) => { return variable += importe }
+function agregarProductoCarrito(producto, indiceProducto){
+    let productoExistenteCarrito = productosCarrito.find((prod) => prod.Descripcion === producto.Descripcion);
+    let seccionCarrito = document.getElementById("seccionCarrito");
 
-function calcularImporteTotalSinDescuentos(){
-    productosCarrito.forEach((producto) => {
-        let productoEncontrado = productos.find((prod) => prod.codigo == producto.codigo);
-        importeTotalSinDescuentos += productoEncontrado.precio*producto.cantidad;
-    });
+    if(productoExistenteCarrito == undefined){
+        let productoCarrito = new ProductoCarrito(producto);
+        productosCarrito.push(productoCarrito);
+        let nuevoElementoCarrito = armarRetornarElementoCarrito(productoCarrito);
+        seccionCarrito.appendChild(nuevoElementoCarrito);
+    }
+    else{
+        productoExistenteCarrito.actualizarSubTotalPrecio(producto.Precio);
+        productoExistenteCarrito.actualizarSubTotalEnvio(producto.Envio);
+        productoExistenteCarrito.actualizarCantidad();
 
-    return importeTotalSinDescuentos;
-}
+        let indiceProductoCarrito;
+        for(let i=0; i<productosCarrito.length; i++){
+            if(productosCarrito[i].Descripcion === productoExistenteCarrito.Descripcion){
+                indiceProductoCarrito = i;
+                break;
+            }
+        }
 
-function procesarAgregarProductos(){
-    descripcionPromptAgregarProductos = obtenerDescripcionPromptAgregarProductos(descripcionProductos);
-    codigoProducto = parseInt(solicitarIngreso(descripcionPromptAgregarProductos));
-
-    while(codigoProducto != 0){
-        let productoEncontrado = productos.find((producto) => producto.codigo == codigoProducto);
+        let strongCantidades = document.getElementsByClassName("cardProductoCarrito__strongCantidad");
+        let strongSubTotalesEnvios = document.getElementsByClassName("cardProductoCarrito__strongSubTotalEnvio");
+        let strongSubTotalesPrecios = document.getElementsByClassName("cardProductoCarrito__strongSubTotalPrecio");
         
-        if(productoEncontrado == undefined){
-            alert("El código de producto ingresado es incorrecto.");
-        }
-        else{
-            descripcionPromptProducto = obtenerDescripcionPromptProducto(productoEncontrado);
-            cantidad = parseInt(solicitarIngreso(descripcionPromptProducto));
-            if(cantidad <= productoEncontrado.cantidad){
-                if(cantidad != 0)
-                {
-                    productoEncontrado.cantidad -= cantidad;
-                    const producto = new Producto(productoEncontrado.codigo, productoEncontrado.descripcion, productoEncontrado.precio*cantidad, cantidad);
-                    cuponDescuento = solicitarIngreso(obtenerDescripcionPromptCupon());
-                    descripcionDescuentoProducto = aplicarDescuento(cuponDescuento, producto);
-                    informarEnConsola("Código: " + producto.codigo + "\nDescripción: " + producto.descripcion + "\nPrecio: ARS " + producto.precio + "\nDescuento: " + descripcionDescuentoProducto + "\nCantidad: " + producto.cantidad);
-                    productosCarrito.push(producto);
-                }
-            }
-            else{
-                alert("No hay stock para la cantidad solicitada.");
-            }
-        }
-    
-        codigoProducto = parseInt(solicitarIngreso(descripcionPromptAgregarProductos));
+        strongCantidades[indiceProductoCarrito].innerHTML = productoExistenteCarrito.Cantidad;
+        strongSubTotalesEnvios[indiceProductoCarrito].innerHTML = `ARS ${productoExistenteCarrito.SubTotalEnvio}`;
+        strongSubTotalesPrecios[indiceProductoCarrito].innerHTML = `ARS ${productoExistenteCarrito.SubTotalPrecio}`;
     }
+
+    producto.Stock = producto.Stock - 1;
+    let cantidadesStock = document.getElementsByClassName("cardProducto__stock");
+    cantidadesStock[indiceProducto].innerHTML = producto.Stock;
+
+    validarStockProductoActualizarBotonAgregar(indiceProducto, producto.Stock);
 }
 
 
+for(let i=0; i<botones.length; i++){
+    validarStockProductoActualizarBotonAgregar(i, productos[i].Stock);
 
-//Comienzo
-cargarProductosEnStock();
-
-descripcionPrompt = obtenerDescripcionPromptOperacion();
-opcion = solicitarIngreso(descripcionPrompt);
-while(opcion != "2"){    
-    switch(opcion){
-        case "1":
-            procesarAgregarProductos();
-            break;
-
-        default:
-            alert("La opción ingresada es incorrecta.");
-            break;
-    }
-
-    descripcionPrompt = obtenerDescripcionPromptOperacion();
-    opcion = solicitarIngreso(descripcionPrompt);
+    botones[i].onclick = () => {    
+        agregarProductoCarrito(productos[i], i);
+    };
 }
-
-importeTotalSinDescuentos = calcularImporteTotalSinDescuentos();
-const importeTotal = productosCarrito.reduce((acumulador, producto) => acumulador + producto.precio, 0);
-informarEnConsola("IMPORTE TOTAL SIN DESCUENTOS: ARS " + importeTotalSinDescuentos + "\nIMPORTE DESCUENTOS: ARS " + (importeTotalSinDescuentos - importeTotal) + "\nIMPORTE FINAL: ARS " + importeTotal);
