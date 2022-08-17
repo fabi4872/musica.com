@@ -1,9 +1,10 @@
 //Funciones
 function validarStockProductoActualizarBotonAgregar(indiceProducto, cantidadStock){
     if(cantidadStock < 1){
-        botones[indiceProducto].remove();
-        let botonesContainers = document.getElementsByClassName("cardProducto__botonContainer");
-        botonesContainers[indiceProducto].innerHTML += `<button class="btn btn-primary cardProducto__boton disabled">Agregar</button>`;
+        botones[indiceProducto].classList.add("disabled");
+    }
+    else {
+        botones[indiceProducto].classList.remove("disabled");
     }
 }
 
@@ -14,9 +15,12 @@ function actualizarLocalStorageCarrito(){
 }
 
 
-function habilitarBotonLimpiador(){
+function habilitarDeshabilitarBotonLimpiador(){
     let botonLimpiar = document.getElementById("btnLimpiar");
-    if(botonLimpiar.classList.contains("disabled")){
+    if(productosCarrito.length == 0){
+        botonLimpiar.classList.add("disabled");
+    }
+    else{
         botonLimpiar.classList.remove("disabled");
     }
 }
@@ -53,7 +57,7 @@ function armarRetornarElementoCarrito(producto){
             <h6 class="cardProductoCarrito__titulo">Cantidad</h6>
             <h5 class="cardProductoCarrito__cantidad">${producto.Cantidad}</h5>
         </div>
-        <button class="cardProductoCarrito__botonDelete">
+        <button class="cardProductoCarrito__botonDelete" id="btnEliminar${producto.Modelo}">
             <i class="fa-solid fa-trash-can cardProductoCarrito__iconDelete"></i>
         </button>
     `;
@@ -73,7 +77,11 @@ function agregarProductoCarrito(producto, indiceProducto){
         productosCarrito.push(productoCarrito);
         let nuevoElementoCarrito = armarRetornarElementoCarrito(productoCarrito);
         seccionCarrito.appendChild(nuevoElementoCarrito);
-        habilitarBotonLimpiador();
+
+        //Adhiero evento click al botón eliminar
+        document.getElementById(`btnEliminar${productoCarrito.Modelo}`).addEventListener("click", function(){
+            eliminarProductoCarrito(productoCarrito);
+        });
     }
     else{
         productoExistenteCarrito.actualizarSubTotalPrecio(producto.Precio);
@@ -103,6 +111,31 @@ function agregarProductoCarrito(producto, indiceProducto){
 
     validarStockProductoActualizarBotonAgregar(indiceProducto, producto.Cantidad);
     actualizarLocalStorageCarrito();
+    habilitarDeshabilitarBotonLimpiador();
+}
+
+
+function eliminarProductoCarrito(productoCarrito){
+    //Actualizaciones en carrito y productos publicados
+    let indiceProductoCarrito = productosCarrito.indexOf(productoCarrito);
+    productosCarrito.splice(indiceProductoCarrito, 1);
+    let productoPublicado = productos.find(prod => prod.Descripcion === productoCarrito.Descripcion);
+    productoPublicado.Cantidad += productoCarrito.Cantidad;
+    
+    //Actualizaciones en HTML (sección carrito y sección productos)
+    let indiceProductoPublicado = productos.indexOf(productoPublicado);
+    let cardsProductosCarrito = document.getElementsByClassName("cardProductoCarrito");
+    let cantidadesStock = document.getElementsByClassName("cardProducto__stock");
+    cantidadesStock[indiceProductoPublicado].innerHTML = productoPublicado.Cantidad;
+    cardsProductosCarrito[indiceProductoCarrito].remove();
+
+    //Actualizaciones de validación
+    validarStockProductoActualizarBotonAgregar(indiceProductoPublicado, productoPublicado.Cantidad);
+    actualizarLocalStorageCarrito();
+    if(productosCarrito.length == 0){
+        habilitarDeshabilitarBotonLimpiador();
+        localStorage.removeItem("carrito");
+    }
 }
 
 
@@ -118,12 +151,11 @@ let botones = document.getElementsByClassName("cardProducto__boton");
 
 //Recuperación de productos del carrito del localStorage
 if(localStorage.getItem("carrito")){
-    habilitarBotonLimpiador();
     resultado = JSON.parse(localStorage.getItem("carrito"));
     resultado.forEach(producto => {
         let productoCarrito = new Producto(producto.Imagen, producto.Marca, producto.Modelo, producto.Descripcion, producto.Cuotas, producto.Envio, producto.Precio, producto.Cantidad);
-        productoCarrito.actualizarSubTotalPrecio(producto.Precio * producto.Cantidad);
-        productoCarrito.actualizarSubTotalEnvio(producto.Envio * producto.Cantidad);
+        productoCarrito.actualizarSubTotalPrecio(producto.Precio * (producto.Cantidad - 1));
+        productoCarrito.actualizarSubTotalEnvio(producto.Envio * (producto.Cantidad - 1));
         productosCarrito.push(productoCarrito);
     });
     let seccionCarrito = document.getElementById("seccionCarrito");
@@ -135,7 +167,14 @@ if(localStorage.getItem("carrito")){
         let cantidadesStock = document.getElementsByClassName("cardProducto__stock");
         let indiceProducto = productos.indexOf(productoExistente);
         cantidadesStock[indiceProducto].innerHTML = productoExistente.Cantidad;
+
+        //Adhiero evento click al botón eliminar
+        document.getElementById(`btnEliminar${producto.Modelo}`).addEventListener("click", function(){
+            eliminarProductoCarrito(producto);
+        });
     }
+
+    habilitarDeshabilitarBotonLimpiador();
 }
 
 
