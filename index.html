@@ -25,12 +25,31 @@
 </head>
 <body class="body">
     <header class="header">
-        <h2 class="header__logo">musica.com</h2>
+        <nav class="header__nav">
+            <h2 class="header__logo">musica.com</h2>
+            
+            <ul class="header__list">
+                <i class="header__item">
+                    <a href="#" class="header__anchor"></a>
+                </i>
+    
+                <i class="header__item">
+                    <a href="#" class="header__anchor"></a>
+                </i>
+            </ul>
+        </nav>
     </header>
 
     <main class="main">
-        <section class="seccionCarrito" id="seccionCarrito">
-            
+        <section class="seccionCarritoContainer">
+            <h2 class="seccionCarrito__titulo">Carrito de Compras</h2>   
+            <button class="btn btn-danger seccionCarrito__btnLimpiar mb-3 mt-3 disabled" id="btnLimpiar">Limpiar carrito</button>         
+            <div class="seccionCarrito" id="seccionCarrito">
+
+            </div>
+            <h3 class="seccionCarrito__subTotalEnvios"></h3>
+            <h3 class="seccionCarrito__subTotalPrecios"></h3>
+            <h3 class="seccionCarrito__precioFinal"></h3>
         </section>
 
         <section class="seccionProductos" id="seccionProductos">
@@ -74,6 +93,8 @@
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" 
         crossorigin="anonymous">
     </script>
+
+    <script src="js/armarProductos.js"></script>
 
     <script src="js/cargarSeccionProductos.js"></script>
     
