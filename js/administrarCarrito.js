@@ -2,9 +2,11 @@
 function validarStockProductoActualizarBotonAgregar(indiceProducto, cantidadStock){
     if(cantidadStock < 1){
         botones[indiceProducto].classList.add("disabled");
+        botones[indiceProducto].innerHTML = "Agotado";
     }
     else {
         botones[indiceProducto].classList.remove("disabled");
+        botones[indiceProducto].innerHTML = "Agregar";
     }
 }
 
@@ -15,10 +17,28 @@ function actualizarLocalStorageCarrito(){
 }
 
 
+function setearImportesHtml(){
+    //Seteo de variables totales para el carrito
+    document.getElementById("seccionCarrito__subTotalEnviosImporte").innerHTML = `ARS ${subtotalEnvios}`;
+    document.getElementById("seccionCarrito__subTotalPreciosImporte").innerHTML = `ARS ${subtotalPrecios}`;
+    document.getElementById("seccionCarrito__precioFinalImporte").innerHTML = `ARS ${subtotalEnvios + subtotalPrecios}`; 
+}
+
+
 function habilitarDeshabilitarBotonLimpiador(){
     let botonLimpiar = document.getElementById("btnLimpiar");
     if(productosCarrito.length == 0){
         botonLimpiar.classList.add("disabled");
+
+        //Armado de mensaje para carrito vacío
+        document.getElementById("seccionCarrito").innerHTML = 
+        `<div class="cardProductoCarrito">
+            <div class="card-body cardProductoCarrito__body">
+                <p class="cardProductoCarrito__carritoVacio">
+                    No hay productos en el carrito
+                </p>
+            </div>
+        </div>`;
     }
     else{
         botonLimpiar.classList.remove("disabled");
@@ -75,6 +95,12 @@ function agregarProductoCarrito(producto, indiceProducto){
     if(productoExistenteCarrito == undefined){
         let productoCarrito = new Producto(producto.Imagen, producto.Marca, producto.Modelo, producto.Descripcion, producto.Cuotas, producto.Envio, producto.Precio, 1);
         productosCarrito.push(productoCarrito);
+
+        //Verificación para eliminar mensaje de carrito vacío
+        if(productosCarrito.length == 1){
+            seccionCarrito.innerHTML = "";    
+        }
+
         let nuevoElementoCarrito = armarRetornarElementoCarrito(productoCarrito);
         seccionCarrito.appendChild(nuevoElementoCarrito);
 
@@ -105,6 +131,11 @@ function agregarProductoCarrito(producto, indiceProducto){
         precios[indiceProductoCarrito].innerHTML = `ARS ${productoExistenteCarrito.SubTotalPrecio}`;
     }
 
+    //Sumatoria de importes
+    subtotalEnvios += producto.Envio;
+    subtotalPrecios += producto.Precio;
+    setearImportesHtml();
+
     producto.Cantidad -= 1;
     let cantidadesStock = document.getElementsByClassName("cardProducto__stock");
     cantidadesStock[indiceProducto].innerHTML = producto.Cantidad;
@@ -129,6 +160,11 @@ function eliminarProductoCarrito(productoCarrito){
     cantidadesStock[indiceProductoPublicado].innerHTML = productoPublicado.Cantidad;
     cardsProductosCarrito[indiceProductoCarrito].remove();
 
+    //Resta de importes
+    subtotalEnvios -= productoCarrito.SubTotalEnvio;
+    subtotalPrecios -= productoCarrito.SubTotalPrecio;
+    setearImportesHtml();
+
     //Actualizaciones de validación
     validarStockProductoActualizarBotonAgregar(indiceProductoPublicado, productoPublicado.Cantidad);
     actualizarLocalStorageCarrito();
@@ -139,12 +175,34 @@ function eliminarProductoCarrito(productoCarrito){
 }
 
 
+function eliminarTodosProductosCarrito(){
+    let cantidadesStock = document.getElementsByClassName("cardProducto__stock");
+    for(let i=0; i<productosCarrito.length; i++){
+        let productoPublicado = productos.find(prod => prod.Descripcion === productosCarrito[i].Descripcion);
+        productoPublicado.Cantidad += productosCarrito[i].Cantidad;
+        let indiceProductoPublicado = productos.indexOf(productoPublicado);
+        cantidadesStock[indiceProductoPublicado].innerHTML = productoPublicado.Cantidad;
+        validarStockProductoActualizarBotonAgregar(indiceProductoPublicado, productoPublicado.Cantidad);
+    }
+
+    subtotalEnvios = 0;
+    subtotalPrecios = 0;
+    setearImportesHtml();
+    productosCarrito = [];
+    document.getElementById("seccionCarrito").innerHTML = "";
+    habilitarDeshabilitarBotonLimpiador();
+    localStorage.removeItem("carrito");
+}
+
+
 
 
 
 
 
 //Declaración de variables
+let subtotalEnvios = 0;
+let subtotalPrecios = 0;
 let productosCarrito = [];
 let botones = document.getElementsByClassName("cardProducto__boton");
 
@@ -157,8 +215,13 @@ if(localStorage.getItem("carrito")){
         productoCarrito.actualizarSubTotalPrecio(producto.Precio * (producto.Cantidad - 1));
         productoCarrito.actualizarSubTotalEnvio(producto.Envio * (producto.Cantidad - 1));
         productosCarrito.push(productoCarrito);
+
+        //Sumatoria de importes
+        subtotalEnvios += (producto.Envio * producto.Cantidad);
+        subtotalPrecios += (producto.Precio * producto.Cantidad);
     });
     let seccionCarrito = document.getElementById("seccionCarrito");
+    seccionCarrito.innerHTML = "";
     for(const producto of productosCarrito){
         let productoExistente = productos.find(prod => prod.Descripcion === producto.Descripcion);
         let nuevoElementoCarrito = armarRetornarElementoCarrito(producto);
@@ -173,11 +236,18 @@ if(localStorage.getItem("carrito")){
             eliminarProductoCarrito(producto);
         });
     }
-
-    habilitarDeshabilitarBotonLimpiador();
 }
 
 
+//Verifica habilitación de botón para eliminar todos los productos del carrito
+habilitarDeshabilitarBotonLimpiador();
+
+
+//Setea importes del carrito (existan o no productos en éste)
+setearImportesHtml();
+
+
+//Eventos a los botones de agregar
 for(let i=0; i<botones.length; i++){
     validarStockProductoActualizarBotonAgregar(i, productos[i].Cantidad);
 
@@ -185,3 +255,9 @@ for(let i=0; i<botones.length; i++){
         agregarProductoCarrito(productos[i], i);
     };
 }
+
+
+//Evento al botón de limpiar todos los productos del carrito
+document.getElementById("btnLimpiar").addEventListener("click", function(){
+    eliminarTodosProductosCarrito();
+});
