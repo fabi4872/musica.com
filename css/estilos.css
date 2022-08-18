@@ -284,3 +284,66 @@
 .footer__item i:hover {
     color: white; 
 }
+
+
+
+@media screen and (max-width: 1050px)  {
+    .cardProductoCarrito__body{
+        height: auto; 
+        padding: 1rem;
+    }
+
+    .cardProductoCarrito__imagenContainer{
+        align-self: flex-start;
+    }
+
+    .cardProductoCarrito__detalle{
+        padding: 1rem;  
+        align-self: center;
+        width: auto;
+    }
+
+    .cardProductoCarrito__precios{
+        padding: 1rem; 
+        align-self: flex-start;
+    }
+
+    .cardProductoCarrito__subTotales{
+        padding: 1rem;   
+        align-self: flex-start;
+    }
+
+    .cardProductoCarrito__cantidad{
+        align-self: center;
+    }
+
+    .cardProductoCarrito__botonDelete{
+        align-self: center;
+        margin: 1rem;
+    }
+
+    .cardProductoCarrito__marca{
+        align-self: center;
+    }
+
+    .cardProductoCarrito__modelo{
+        align-self: center;
+    }
+
+    .cardProductoCarrito__descripcion{
+        align-self: center;
+    }
+
+    .seccionCarrito__acciones{
+        justify-content: center;
+        align-items: center;
+    }
+
+    .seccionCarrito__titulo{
+        padding: 0 1rem;
+    }
+
+    .seccionCarrito__btnLimpiar{
+        padding: 0 1rem;
+    }
+}
