@@ -19,9 +19,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap" rel="stylesheet">
     <link href="https: //fonts.googleapis.com/css2? familia= Roboto:peso@400;500;700;900 & display=swap" rel="hoja de estilo">
-    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="../css/estilos.css">
     
-    <title>Home</title>    
+    <title>Carrito</title>    
 </head>
 <body class="body">
     <header class="header">
@@ -30,19 +30,31 @@
             
             <ul class="header__list">
                 <i class="header__item">
-                    <a href="#" class="header__anchor">Productos</a>
+                    <a href="../index.html" class="header__anchor">Productos</a>
                 </i>
                 
                 <i class="header__item">
-                    <a href="servicios/carrito.html" class="header__anchor">Carrito</a>
+                    <a href="#" class="header__anchor">Carrito</a>
                 </i>
             </ul>
         </nav>
     </header>
 
     <main class="main">
-        <section class="seccionProductos" id="seccionProductos">
-            
+        <section class="seccionCarritoContainer">
+            <div class="seccionCarrito__acciones">
+                <h2 class="seccionCarrito__titulo">Carrito de Compras</h2>   
+                <button class="btn btn-danger seccionCarrito__btnLimpiar mb-3 mt-3 disabled" id="btnLimpiar">
+                    <i class="fa-solid fa-hand-sparkles seccionCarrito__iconClean"></i>
+                    Limpiar carrito
+                </button>         
+            </div>
+            <div class="seccionCarrito" id="seccionCarrito">
+
+            </div>
+            <p class="seccionCarrito__precio mt-4" id="seccionCarrito__subTotalEnvios">Subtotal envíos: <span class="seccionCarrito__importe" id="seccionCarrito__subTotalEnviosImporte"></span></p>
+            <p class="seccionCarrito__precio" id="seccionCarrito__subTotalPrecios">Subtotal precios: <span class="seccionCarrito__importe" id="seccionCarrito__subTotalPreciosImporte"></span></p>
+            <p class="seccionCarrito__precio" id="seccionCarrito__precioFinal">Precio final: <span class="seccionCarrito__importe" id="seccionCarrito__precioFinalImporte"></span></p>
         </section>
     </main>
 
@@ -83,10 +95,6 @@
         crossorigin="anonymous">
     </script>
 
-    <script src="js/crearProductos.js"></script>
-
-    <script src="js/cargarSeccionProductos.js"></script>
-    
-    <script src='js/comprarProductos.js'></script>
+    <script src="../js/administrarCarrito.js"></script>
 </body>
 </html>

@@ -1,14 +1,14 @@
 //Funciones
-function habilitarBotonAgregar(){
-    botonAgregar.classList.remove("disabled"); 
-    botonAgregar.innerText = "Agregar";
-}
-
 function actualizarBotonAgregar(codigo, hayStock){
     let botonAgregar = document.getElementById(`btn${codigo}`);
-    hayStock && habilitarBotonAgregar();
+    if(hayStock){
+        botonAgregar.classList.remove("disabled"); 
+        botonAgregar.innerText = "Agregar";
+        return true;
+    }
     botonAgregar.classList.add("disabled");
     botonAgregar.innerHTML = "Agotado";
+    return false;
 }
 
 function validarStockProducto({codigo, cantidad}){
@@ -45,7 +45,7 @@ function agregarProductoCarrito(producto){
         ...producto,
         cantidad: cantidadActual,
         subtotalEnvio: producto.envio * cantidadActual,
-        subtotalProducto: producto.precio * cantidadActual
+        subtotalPrecio: producto.precio * cantidadActual
     }
 
     productosCarrito.push(nuevoProductoCarrito);

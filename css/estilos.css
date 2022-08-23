@@ -64,6 +64,7 @@
     flex-flow: column wrap;
     justify-content: center;
     align-items: center;
+    margin: 7rem 0;
 }
 
 
@@ -73,7 +74,6 @@
     flex-flow: column wrap;
     align-items: center;
     width: 90%;
-    margin-top: 7rem;
 }
 .seccionCarrito{
     display: flex;
@@ -167,10 +167,12 @@
 .cardProductoCarrito__botonDelete{
     width: auto;
     border: none;
+    background: none;
 }
 .cardProductoCarrito__iconDelete{
     color: red;
-    font-size: 2rem;
+    font-size: 1.2rem;
+    background: none;
 }
 .cardProductoCarrito__iconDelete:hover{
     color: rgb(168, 27, 3);
@@ -189,7 +191,6 @@
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
-    margin: 7rem 0;
 }
 .cardProducto{
     width: 20rem;
@@ -287,7 +288,7 @@
 
 
 
-@media screen and (max-width: 1050px)  {
+@media screen and (max-width: 750px)  {
     .cardProductoCarrito__body{
         height: auto; 
         padding: 1rem;
