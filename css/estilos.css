@@ -55,6 +55,20 @@
 .header__anchor:hover{
     color: white;
 }
+.header__iconCarrito{
+    font-size: 1.5rem;
+    color: #869FB2;
+}
+.header__iconCarrito:hover{
+    color: white;
+}
+.header__cantidad{
+    color: yellow;  
+    position: absolute;
+    top: 2rem;
+    right: 6rem;  
+    font-weight: bold;
+}
 
 
 

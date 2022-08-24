@@ -31,26 +31,35 @@ function actualizarAllProductos(){
     });
 }
 
-function agregarProductoCarrito(producto){
-    let cantidadActual = 0;    
+function agregarProductoCarrito(producto){  
+    totalProductosCarrito++;
+    let productoCarritoActual;
+
     productoCarritoActual = productosCarrito.find((prod) => prod.codigo === producto.codigo);
+    
     if(productoCarritoActual != undefined){
-        cantidadActual += productoCarritoActual.cantidad;
-        productosCarrito = productosCarrito.filter((prod) => prod.codigo !== producto.codigo);
+        productoCarritoActual.cantidad += 1;
+        productoCarritoActual.subtotalEnvio = producto.envio * productoCarritoActual.cantidad;
+        productoCarritoActual.subtotalPrecio = producto.precio * productoCarritoActual.cantidad;
+    }
+    else{
+        productoCarritoActual = {
+            ...producto,
+            cantidad: 1,
+            subtotalEnvio: producto.envio,
+            subtotalPrecio: producto.precio
+        }
+    
+        productosCarrito.push(productoCarritoActual);
     }
     
-    cantidadActual += 1;
-
-    let nuevoProductoCarrito = {
-        ...producto,
-        cantidad: cantidadActual,
-        subtotalEnvio: producto.envio * cantidadActual,
-        subtotalPrecio: producto.precio * cantidadActual
-    }
-
-    productosCarrito.push(nuevoProductoCarrito);
     localStorage.setItem("carrito", JSON.stringify(productosCarrito));
-    actualizarProductoDesdeProductoCarrito(nuevoProductoCarrito);
+    actualizarProductoDesdeProductoCarrito(productoCarritoActual);
+    cantidadProductosCarritoHtml.innerText = totalProductosCarrito;
+}
+
+function calcularTotalProductosCarrito(){
+    return productosCarrito.reduce((acumulador, producto) => (acumulador + producto.cantidad), 0);
 }
 
 
@@ -68,6 +77,11 @@ productos.forEach(
 
 //Recuperación de productos del carrito en localStorage
 let productosCarrito = (JSON.parse(localStorage.getItem("carrito")) || []);
+
+//Variable para cantidad total de productos (se muestra junto al ícono de carrito, en el header)
+let totalProductosCarrito = calcularTotalProductosCarrito();
+let cantidadProductosCarritoHtml = document.getElementById("header__cantidad");
+cantidadProductosCarritoHtml.innerText = totalProductosCarrito || "";
 
 //Actualiza los productos a partir de los que están en el carrito (si corresponde)
 productosCarrito && actualizarAllProductos();
