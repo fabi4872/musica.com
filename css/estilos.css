@@ -18,6 +18,23 @@
 
 
 
+.alert__btnCancelar{
+    background-color: white;
+    color: tomato;
+}
+.alert__btnCancelar:not([disabled]):hover{
+    background-color: tomato;
+    color: white;
+}
+.alert__btnConfirmar{
+    background-color: #222fa5;
+}
+.alert__btnConfirmar:not([disabled]):hover{
+    background-color: #17206f;
+}
+
+
+
 .header{
     grid-area: header; 
     background-color: #333333;
@@ -153,6 +170,7 @@
     font-weight: bold;
     color: #333333;
     font-style: italic;
+    align-self: center;
 }
 .cardProductoCarrito__importe{
     color: tomato;
@@ -174,9 +192,10 @@
     font-weight: bold;
 }
 .cardProductoCarrito__cantidad{
-    align-self: center;
     font-weight: bold;
-    color: green;
+    margin: 0 1rem 0 1.1rem;
+    width: 2rem;
+    text-align: center;
 }
 .cardProductoCarrito__botonDelete{
     width: auto;
@@ -190,6 +209,29 @@
 }
 .cardProductoCarrito__iconDelete:hover{
     color: rgb(168, 27, 3);
+}
+.cardProductoCarrito__controladorCantidad{
+    display: flex;
+    align-items: center;
+}
+.cardProductoCarrito__mjeError{
+    font-size: 0.7rem;
+    color: red;
+    align-self: center;
+    font-weight: bold;
+}
+.btnCantidad{
+    border: none;
+    background: none;
+}
+.iconCantidad{
+    background: none;
+    color: #869FB2;
+    font-size: 1.3rem;
+    padding-top: 0.2rem;
+}
+.iconCantidad:hover{
+    color: #687b8a;
 }
 .flexVertical{
     display: flex;

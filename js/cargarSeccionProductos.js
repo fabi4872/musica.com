@@ -34,6 +34,9 @@ productos.forEach(producto => {
     imageContainer.appendChild(image);
     card.appendChild(imageContainer);
     card.appendChild(body);
-    card.innerHTML += `<div class="cardProducto__botonContainer"><button class="btn btn-primary cardProducto__boton" id="btn${producto.codigo}">Agregar</button></div>`;
+    card.innerHTML += `
+    <div class="cardProducto__botonContainer">
+        <button class="btn btn-primary cardProducto__boton" id="btn${producto.codigo}">Agregar</button>
+    </div>`;
     seccionProductos.appendChild(card);
 });

@@ -59,7 +59,18 @@ function armarRetornarElementoCarrito(producto){
         </div>
         <div class="cardProductoCarrito__cantidades flexVertical">
             <h6 class="cardProductoCarrito__titulo">Cantidad</h6>
-            <h5 class="cardProductoCarrito__cantidad">${producto.cantidad}</h5>
+            <div class="mt-1 cardProductoCarrito__controladorCantidad">
+                <button class="btnCantidad">
+                    <i class="fa-solid fa-circle-minus iconCantidad" id="menos${producto.codigo}"></i>
+                </button>
+                
+                <input min="1" class="cardProductoCarrito__cantidad" type="text" readonly value="${producto.cantidad}" />
+                
+                <button class="btnCantidad">
+                    <i class="fa-solid fa-circle-plus iconCantidad" id="mas${producto.codigo}"></i>
+                </button>
+            </div>   
+            <div class="mt-2 cardProductoCarrito__mjeError" id="mjeError${producto.codigo}"></div>
         </div>
         <button class="cardProductoCarrito__botonDelete" id="btnEliminar${producto.modelo}">
             <i class="fa-solid fa-trash-can cardProductoCarrito__iconDelete"></i>
@@ -74,6 +85,7 @@ function armarRetornarElementoCarrito(producto){
 function eliminarProductoCarrito(productoCarrito){
     productosCarrito = productosCarrito.filter((producto) => producto.codigo !== productoCarrito.codigo);
     actualizarEstadoCarrito();
+    dibujarCarrito();
 }
 
 function eliminarTodosProductosCarrito(){
@@ -96,14 +108,79 @@ function dibujarCarrito() {
                 
             //Adhiero evento click al botón eliminar
             document.getElementById(`btnEliminar${productoCarrito.modelo}`).addEventListener("click", function(){
-                eliminarProductoCarrito(productoCarrito);
-                dibujarCarrito();
+                desplegarAlertaConfirmarEliminacion(`El producto ${productoCarrito.descripcion} será eliminado del carrito`, `El producto ${productoCarrito.descripcion} fue eliminado del carrito satisfactoriamente`, productoCarrito);
+            });
+
+            //Adhiero eventos de disminuir y aumentar cantidad
+            if(productoCarrito.cantidad > 1){
+                document.getElementById(`menos${productoCarrito.codigo}`).addEventListener("click", (e) => {
+                    productoCarrito.cantidad--;
+                    dibujarCarrito();
+                });
+            }
+            document.getElementById(`mas${productoCarrito.codigo}`).addEventListener("click", (e) => {
+                let prodOriginal = productos.find((producto) => producto.codigo === productoCarrito.codigo);
+                if(productoCarrito.cantidad < prodOriginal.cantidad){
+                    productoCarrito.cantidad++;
+                    dibujarCarrito();
+                }
+                else{
+                    let contenedorMensajeError = document.getElementById(`mjeError${productoCarrito.codigo}`);
+                    contenedorMensajeError.innerText = "No hay más stock";
+                }
             });
         }
     );
         
     cantidadProductosCarritoHtml.innerText = totalProductosCarrito || "";
     actualizarEstadoCarrito();
+}
+
+function desplegarAlertaConfirmarEliminacion(mensajeAdvertencia, mensajeConfirmacion, producto) {
+    swal({
+        title: "¿Desea proceder?",
+        text: mensajeAdvertencia,
+        icon: "warning",
+        buttons: {
+            cancelar: {
+                text: "Cancelar",
+                value: false,
+                className: 'alert__btnCancelar'
+            },
+            confirmar: {
+                text: "Confirmar",
+                value: true,
+                className: 'alert__btnConfirmar'
+            }
+        },
+        dangerMode: true
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                swal(mensajeConfirmacion, {
+                    icon: "success",
+                    buttons: {
+                        aceptar: {
+                            text: "Aceptar",
+                            value: true,
+                            className: 'alert__btnConfirmar'
+                        }
+                    }
+                });
+                (producto == undefined) ? eliminarTodosProductosCarrito() : eliminarProductoCarrito(producto);
+            } else {
+                swal({
+                    title: "Eliminación cancelada",
+                    buttons: {
+                        aceptar: {
+                            text: "Aceptar",
+                            value: true,
+                            className: 'alert__btnConfirmar'
+                        }
+                    }
+                });
+            }
+        });
 }
 
 
@@ -123,5 +200,5 @@ dibujarCarrito();
 
 //Evento al botón de limpiar todos los productos del carrito
 botonLimpiar.addEventListener("click", function(){
-    eliminarTodosProductosCarrito();
+    desplegarAlertaConfirmarEliminacion("Todos los productos del carrito serán eliminados", "Se eliminaron todos los productos del carrito satisfactoriamente", undefined);
 });

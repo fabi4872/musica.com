@@ -62,15 +62,31 @@ function calcularTotalProductosCarrito(){
     return productosCarrito.reduce((acumulador, producto) => (acumulador + producto.cantidad), 0);
 }
 
+function desplegarAlertaAgregar({descripcion}) {
+    swal({
+        title: "¡Producto agregado!",
+        text: `Producto ${descripcion} agregado al carrito satisfactoriamente`,
+        icon: "success",
+        buttons: {
+            aceptar: {
+                text: "Aceptar",
+                value: true,
+                className: 'alert__btnConfirmar'
+            }
+        }
+      });
+}
+
 
 
 //Eventos a los botones de agregar
 productos.forEach(
     (producto) => {
         let boton = document.getElementById(`btn${producto.codigo}`);
-
+        
         boton.addEventListener("click", (e) => {
             agregarProductoCarrito(producto);
+            desplegarAlertaAgregar(producto);
         });
     }
 );
