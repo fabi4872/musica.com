@@ -85,8 +85,15 @@ productos.forEach(
         let boton = document.getElementById(`btn${producto.codigo}`);
         
         boton.addEventListener("click", (e) => {
-            agregarProductoCarrito(producto);
-            desplegarAlertaAgregar(producto);
+            boton.innerHTML += 
+            `<div class="spinner-border text-light cardProducto__loading" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>`;
+            setTimeout(() => {
+                boton.innerHTML = `<button class="btn btn-primary cardProducto__boton" id="btn${producto.codigo}">Agregar</button>`;
+                agregarProductoCarrito(producto);
+                desplegarAlertaAgregar(producto);
+            }, 2000);
         });
     }
 );

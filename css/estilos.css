@@ -15,7 +15,7 @@
                          "main main main"
                          "footer footer footer";
 }
-
+                     
 
 
 .alert__btnCancelar{
@@ -37,12 +37,19 @@
 
 .header{
     grid-area: header; 
-    background-color: #333333;
-    height: 7rem;
+    background: rgb(255,0,118);
+    background: -moz-linear-gradient(90deg, rgba(255,0,118,1) 0%, rgba(89,15,183,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(255,0,118,1) 0%, rgba(89,15,183,1) 100%);
+    background: linear-gradient(90deg, rgba(255,0,118,1) 0%, rgba(89,15,183,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff0076",endColorstr="#590fb7",GradientType=1);
+    height: 6rem;
+    border-radius: 0 0 2rem 2rem;
+    border-bottom: 0.7rem solid #0f0f7c;
 }
 .header__logo{
     margin-left: 4rem;
-    color: tomato;
+    color: rgb(247, 175, 247);
+    font-weight: bold;
 }
 .header__nav{
     display: flex;
@@ -65,16 +72,19 @@
     margin: 0 2rem;
 }
 .header__anchor{
-    color: #869FB2;
+    color: rgb(188, 183, 183);
     text-decoration: none;
     font-size: 1rem;
+    font-weight: bold;
+    padding: 0.5rem;
 }
 .header__anchor:hover{
     color: white;
 }
 .header__iconCarrito{
     font-size: 1.5rem;
-    color: #869FB2;
+    color: rgb(188, 183, 183);
+    padding: 0.5rem;
 }
 .header__iconCarrito:hover{
     color: white;
@@ -82,9 +92,10 @@
 .header__cantidad{
     color: yellow;  
     position: absolute;
-    top: 2rem;
-    right: 6rem;  
-    font-weight: bold;
+    top: 1.2rem;
+    right: 7.2rem;  
+    font-weight: 900;
+    font-size: 0.9rem;
 }
 
 
@@ -95,7 +106,7 @@
     flex-flow: column wrap;
     justify-content: center;
     align-items: center;
-    margin: 7rem 0;
+    margin: 5rem 0;
 }
 
 
@@ -253,6 +264,7 @@
     margin: 1rem;
     padding: 0 1rem;
     border-radius: 0;
+    box-shadow: 0 0.5rem 0.5rem 0 #333333;
 }
 .cardProducto__imageContainer{
     width: auto;
@@ -270,22 +282,26 @@
     align-items: flex-start;
 }
 .cardProducto__marca{
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
 }
 .cardProducto__descripcion{
     font-style: italic;
     color: #0c0a83;
     font-weight: bold;
-    margin-top: 0.3rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0;
+    font-size: 0.8rem;
+    min-height: 3rem;
 }
 .cardProducto__precio{
-    margin-bottom: 1.2rem;
+    margin: 0 0 0.9rem 0;
+    font-size: 1.2rem;
 }
 .cardProducto__strongPrecio{
     color: tomato;
 }
 .cardProducto__info{
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 .cardProducto__strong{
     color: #333333;
@@ -298,13 +314,35 @@
     margin-bottom: 1.7rem;
 }
 .cardProducto__boton{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
     padding-bottom: 0.7rem;
-    width: 7rem;
+    width: 8rem;
     border-radius: 0;
+    border: none;
+    background: rgb(64,38,98);
+    background: -moz-linear-gradient(90deg, rgba(64,38,98,1) 0%, rgba(57,0,166,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(64,38,98,1) 0%, rgba(57,0,166,1) 100%);
+    background: linear-gradient(90deg, rgba(64,38,98,1) 0%, rgba(57,0,166,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#402662",endColorstr="#3900a6",GradientType=1);
+}
+.cardProducto__boton:hover{
+    background-color: #0f0f7c;
+    background: -moz-linear-gradient(320deg, #0f0f7c 0%, #0f1687 25%, #17206f 50%, #0a0c5e 75%, #03207d 100%);
+    background: -webkit-linear-gradient(320deg, #0f0f7c 0%, #0f1687 25%, #17206f 50%, #0a0c5e 75%, #03207d 100%);
+    background: linear-gradient(320deg, #0f0f7c 0%, #0f1687 25%, #17206f 50%, #0a0c5e 75%, #03207d 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0f0f7c", endColorstr="#03207d", GradientType=1);
 }
 .cardProducto__icon{
     margin-right: 0.5rem;
     color: green;
+}
+.cardProducto__loading{
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.3rem;
 }
 
 
@@ -316,6 +354,8 @@
     background: -webkit-linear-gradient(320deg, #0f0f7c 0%, #0f1687 25%, #17206f 50%, #0a0c5e 75%, #03207d 100%);
     background: linear-gradient(320deg, #0f0f7c 0%, #0f1687 25%, #17206f 50%, #0a0c5e 75%, #03207d 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0f0f7c", endColorstr="#03207d", GradientType=1);
+    border-radius: 2rem 2rem 0 0;
+    border-top: 0.7rem solid rgb(255,0,118);
 }
 .footer__list {
     list-style-type: none;
