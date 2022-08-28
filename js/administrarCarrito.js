@@ -115,6 +115,8 @@ function dibujarCarrito() {
             if(productoCarrito.cantidad > 1){
                 document.getElementById(`menos${productoCarrito.codigo}`).addEventListener("click", (e) => {
                     productoCarrito.cantidad--;
+                    productoCarrito.subtotalEnvio -= productoCarrito.envio;
+                    productoCarrito.subtotalPrecio -= productoCarrito.precio;
                     dibujarCarrito();
                 });
             }
@@ -122,6 +124,8 @@ function dibujarCarrito() {
                 let prodOriginal = productos.find((producto) => producto.codigo === productoCarrito.codigo);
                 if(productoCarrito.cantidad < prodOriginal.cantidad){
                     productoCarrito.cantidad++;
+                    productoCarrito.subtotalEnvio += productoCarrito.envio;
+                    productoCarrito.subtotalPrecio += productoCarrito.precio;
                     dibujarCarrito();
                 }
                 else{

@@ -384,7 +384,7 @@
 
 
 
-@media screen and (max-width: 750px)  {
+/* @media screen and (max-width: 750px)  {
     .cardProductoCarrito__body{
         height: auto; 
         padding: 1rem;
@@ -443,4 +443,4 @@
     .seccionCarrito__btnLimpiar{
         padding: 0 1rem;
     }
-}
+} */
