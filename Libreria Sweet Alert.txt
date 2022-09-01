@@ -1,0 +1,5 @@
+Justificación de librería Sweet Alert
+
+Utilicé esta librería para desplegar ventanas emergentes (modales), al agregar un producto al carrito de compras, así como también
+en la eliminación de productos del carrito (eliminación individual y masiva).
+Opté por la misma también porque era muy fácil de implementar y modificar estilos.

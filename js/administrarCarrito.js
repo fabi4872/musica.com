@@ -1,4 +1,14 @@
 //Funciones
+async function obtenerTodosProductos(){
+    const URLPRODUCTOS = "../js/productos.js";
+    let response = await fetch(URLPRODUCTOS);
+    let data = await response.json();
+    productos = data;
+
+    //Dibuja el carrito
+    dibujarCarrito();
+}
+
 function setearImportesHtml(){
     document.getElementById("seccionCarrito__subTotalEnviosImporte").innerHTML = `ARS ${subtotalEnvios}`;
     document.getElementById("seccionCarrito__subTotalPreciosImporte").innerHTML = `ARS ${subtotalPrecios}`;
@@ -197,7 +207,7 @@ function desplegarAlertaConfirmarEliminacion(mensajeAdvertencia, mensajeConfirma
 
 //Inicialización de variables
 let productosCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
-let productos = JSON.parse(localStorage.getItem("productos")) || [];
+let productos = [];
 let seccionCarrito = document.getElementById("seccionCarrito");
 let botonLimpiar = document.getElementById("btnLimpiar");
 let cantidadProductosCarritoHtml = document.getElementById("header__cantidad");
@@ -205,10 +215,9 @@ let subtotalEnvios = 0;
 let subtotalPrecios = 0;
 let totalProductosCarrito = 0;
 
-//Dibuja el carrito
-dibujarCarrito();
-
 //Evento al botón de limpiar todos los productos del carrito
 botonLimpiar.addEventListener("click", function(){
     desplegarAlertaConfirmarEliminacion("Todos los productos del carrito serán eliminados", "Se eliminaron todos los productos del carrito satisfactoriamente", undefined);
 });
+
+obtenerTodosProductos();
