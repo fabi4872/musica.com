@@ -1,6 +1,6 @@
 //Funciones
 async function obtenerTodosProductos(){
-    const URLPRODUCTOS = "../js/productos.js";
+    const URLPRODUCTOS = "../js/productos.json";
     let response = await fetch(URLPRODUCTOS);
     let data = await response.json();
     productos = data;
