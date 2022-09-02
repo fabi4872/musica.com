@@ -30,14 +30,15 @@ function cargarSeccionProductos(){
         image.className = "card-img-top cardProducto__imagen";
     
         //Seteo de innerHTML para el cuerpo
-        let valorCuota = Math.round(producto.precio/producto.cuotas);
+
+        let valorCuota = estandarFormatoMonedaPesos.format(parseFloat(producto.precio/producto.cuotas).toFixed(2));
         body.innerHTML = `
             <h5 class="card-title cardProducto__marca">${producto.marca.toUpperCase()}</h5>
             <h6 class="card-subtitle mb-2 text-muted cardProducto__modelo">Modelo ${producto.modelo.toUpperCase()}</h6>
             <p class="card-text cardProducto__descripcion">${producto.descripcion}</p>
-            <h3 class="cardProducto__precio"><strong class="cardProducto__strongPrecio">ARS ${producto.precio}</strong><h3/>
+            <h3 class="cardProducto__precio"><strong class="cardProducto__strongPrecio">ARS ${estandarFormatoMonedaPesos.format(parseFloat(producto.precio).toFixed(2))}</strong><h3/>
             <p class="card-text cardProducto__info"><i class="fa-solid fa-credit-card cardProducto__icon"></i><small class="text-muted">${producto.cuotas} cuotas sin interés de <strong class="cardProducto__strong">ARS ${valorCuota}</strong></small></p>
-            <p class="card-text cardProducto__info"><i class="fa-solid fa-truck cardProducto__icon"></i><small class="text-muted">Costo de envío: <strong class="cardProducto__strong">ARS ${producto.envio}</strong></small></p>
+            <p class="card-text cardProducto__info"><i class="fa-solid fa-truck cardProducto__icon"></i><small class="text-muted">Costo de envío: <strong class="cardProducto__strong">ARS ${estandarFormatoMonedaPesos.format(parseFloat(producto.envio).toFixed(2))}</strong></small></p>
             <p class="card-text cardProducto__info"><i class="fa-solid fa-business-time cardProducto__icon"></i><small class="text-muted">Cantidad en stock: <strong class="cardProducto__stock cardProducto__strong" id="cantidad${producto.codigo}">${producto.cantidad}</strong></small></p>
         `;
         body.className = "card-body cardProducto__body";
@@ -160,6 +161,9 @@ function cargarEventosBotonesAgregar(){
 }
 
 
+
+//Formato de moneda nacional
+const estandarFormatoMonedaPesos = Intl.NumberFormat("es-AR");
 
 //Recuperación del elemento html sección de productos
 let seccionProductos = document.getElementById("seccionProductos");

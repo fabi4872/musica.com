@@ -10,14 +10,14 @@ async function obtenerTodosProductos(){
 }
 
 function setearImportesHtml(){
-    document.getElementById("seccionCarrito__subTotalEnviosImporte").innerHTML = `ARS ${subtotalEnvios}`;
-    document.getElementById("seccionCarrito__subTotalPreciosImporte").innerHTML = `ARS ${subtotalPrecios}`;
-    document.getElementById("seccionCarrito__precioFinalImporte").innerHTML = `ARS ${subtotalEnvios + subtotalPrecios}`; 
+    document.getElementById("seccionCarrito__subTotalEnviosImporte").innerHTML = `ARS ${estandarFormatoMonedaPesos.format(parseFloat(subtotalEnvios).toFixed(2))}`;
+    document.getElementById("seccionCarrito__subTotalPreciosImporte").innerHTML = `ARS ${estandarFormatoMonedaPesos.format(parseFloat(subtotalPrecios).toFixed(2))}`;
+    document.getElementById("seccionCarrito__precioFinalImporte").innerHTML = `ARS ${estandarFormatoMonedaPesos.format(parseFloat(subtotalEnvios + subtotalPrecios).toFixed(2))}`; 
 }
 
 function actualizarEstadoCarrito(){
     localStorage.setItem("carrito", JSON.stringify(productosCarrito));
-    habilitarDeshabilitarBotonLimpiador();
+    habilitarDeshabilitarBotonesLimpiarFinalizar();
     obtenerValoresImportes();
     setearImportesHtml();
 }
@@ -27,9 +27,10 @@ function obtenerValoresImportes(){
     subtotalPrecios = productosCarrito.reduce((acumulador, producto) => acumulador + (producto.precio*producto.cantidad), 0);
 }
 
-function habilitarDeshabilitarBotonLimpiador(){
+function habilitarDeshabilitarBotonesLimpiarFinalizar(){
     if(productosCarrito.length == 0){
         botonLimpiar.classList.add("disabled");
+        botonFinalizar.classList.add("disabled");
 
         //Armado de mensaje para carrito vacío
         document.getElementById("seccionCarrito").innerHTML = 
@@ -43,6 +44,7 @@ function habilitarDeshabilitarBotonLimpiador(){
     }
     else{
         botonLimpiar.classList.remove("disabled");
+        botonFinalizar.classList.remove("disabled");
     }
 }
 
@@ -65,9 +67,9 @@ function armarRetornarElementoCarrito(producto){
 
         <div class="col-12 col-md-5 cardProductoCarrito__subTotales flexVertical p-3">
             <h6 class="cardProductoCarrito__titulo">Subtotal Envío</h6>
-            <h5 class="cardProductoCarrito__subTotalEnvio cardProductoCarrito__importe">ARS ${producto.subtotalEnvio}</h5>
+            <h5 class="cardProductoCarrito__subTotalEnvio cardProductoCarrito__importe">ARS ${estandarFormatoMonedaPesos.format(parseFloat(producto.subtotalEnvio).toFixed(2))}</h5>
             <h6 class="cardProductoCarrito__titulo mt-3">Subtotal Precio</h6>
-            <h5 class="cardProductoCarrito__subTotalPrecio cardProductoCarrito__importe">ARS ${producto.subtotalPrecio}</h5>
+            <h5 class="cardProductoCarrito__subTotalPrecio cardProductoCarrito__importe">ARS ${estandarFormatoMonedaPesos.format(parseFloat(producto.subtotalPrecio).toFixed(2))}</h5>
         </div>
 
         <div class="col-12 col-md-5 cardProductoCarrito__cantidades flexVertical p-3">
@@ -210,10 +212,12 @@ let productosCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let productos = [];
 let seccionCarrito = document.getElementById("seccionCarrito");
 let botonLimpiar = document.getElementById("btnLimpiar");
+let botonFinalizar = document.getElementById("btnFinalizar");
 let cantidadProductosCarritoHtml = document.getElementById("header__cantidad");
 let subtotalEnvios = 0;
 let subtotalPrecios = 0;
 let totalProductosCarrito = 0;
+const estandarFormatoMonedaPesos = Intl.NumberFormat("es-AR");
 
 //Evento al botón de limpiar todos los productos del carrito
 botonLimpiar.addEventListener("click", function(){
