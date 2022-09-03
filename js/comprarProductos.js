@@ -1,17 +1,84 @@
 //Funciones
-async function obtenerTodosProductos(){
-    const URLPRODUCTOS = "./js/productos.json";
-    let response = await fetch(URLPRODUCTOS);
-    let data = await response.json();
-    productos = data;
-    cargarSeccionProductos();
-    cargarEventosBotonesAgregar();
-
-    //Actualiza los productos a partir de los que están en el carrito (si corresponde)
-    productosCarrito && actualizarAllProductos();
+function obtenerPalabrasClaveProducto(cadenaCompleta){
+    let cadenaCompletaProducto = removerAcentos(cadenaCompleta);
+    let arrayPalabrasProducto = (cadenaCompletaProducto.split(" ")).filter((palabra) => palabra != "");
+    return arrayPalabrasProducto.map(palabra => {
+        return palabra.toUpperCase();
+    });
 }
 
-function cargarSeccionProductos(){
+function cargarEventosBotonesAgregar(productos){
+    productos.forEach(
+        (producto) => {
+            let boton = document.getElementById(`btn${producto.codigo}`);
+            
+            boton.addEventListener("click", (e) => {
+                boton.classList.toggle("disabled");
+                boton.innerHTML += 
+                `<div class="spinner-border text-light cardProducto__loading" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>`;
+                setTimeout(() => {
+                    boton.innerHTML = `<button class="btn btn-primary cardProducto__boton" id="btn${producto.codigo}">Agregar</button>`;
+                    agregarProductoCarrito(producto);
+                    desplegarAlertaAgregar(producto);
+                }, 2000);
+            });
+        }
+    ); 
+}
+
+function cargarEventoBuscar(){
+    botonBuscar.addEventListener("click", (e) => {
+        obtenerTodosProductos("busqueda");
+    });
+    inputBuscar.addEventListener("keyup", (event) => {
+        if (event.key === "Enter")
+        {
+            botonBuscar.click();
+        }
+    });
+}
+
+async function obtenerTodosProductos(parametros){
+    if(parametros == undefined){
+        const URLPRODUCTOS = "./js/productos.json";
+        let response = await fetch(URLPRODUCTOS);
+        let data = await response.json();
+        productos = data;
+        productosFiltros = productos;
+        cargarEventoBuscar();
+    }
+    else if(parametros == "busqueda"){
+        productosFiltros = [];
+        let cumpleCondicion = false;
+        let valorInputBuscar = removerAcentos(inputBuscar.value.trim());
+        let arrayPalabrasBusqueda = (valorInputBuscar.split(" ")).filter((palabra) => palabra != "");
+        productos.forEach((producto) => {
+            let arrayPalabrasProducto = obtenerPalabrasClaveProducto(`${producto.marca.trim()} ${producto.modelo.trim()} ${producto.descripcion.trim()}`);
+            
+            for(const palabra of arrayPalabrasBusqueda){
+                if(arrayPalabrasProducto.includes(palabra.toUpperCase())){
+                    cumpleCondicion = true;
+                }
+                else{
+                    cumpleCondicion = false;
+                    break;
+                }
+            }
+            cumpleCondicion && productosFiltros.push(producto);
+        });
+    }
+
+    cargarSeccionProductos(productosFiltros);
+    cargarEventosBotonesAgregar(productosFiltros);
+
+    //Actualiza los productos a partir de los que están en el carrito (si corresponde)
+    productosCarrito && actualizarAllProductos(productosFiltros);
+}
+
+function cargarSeccionProductos(productos){
+    seccionProductos.innerHTML = "";
     productos.forEach(producto => {
         let card = document.createElement("div");
         let imageContainer = document.createElement("div");
@@ -86,10 +153,11 @@ function actualizarProductoDesdeProductoCarrito({codigo: codigoProductoCarrito, 
     validarStockProducto(cantidadActual, productoInicial);
 }
 
-function actualizarAllProductos(){
+function actualizarAllProductos(productos){
     productosCarrito = (JSON.parse(localStorage.getItem("carrito")) || []);
     productosCarrito.forEach((productoCarrito) => {
-        actualizarProductoDesdeProductoCarrito(productoCarrito);
+        let productoExistente = productos.find((prod) => prod.codigo === productoCarrito.codigo);
+        productoExistente && actualizarProductoDesdeProductoCarrito(productoCarrito);
     });
 }
 
@@ -116,7 +184,7 @@ function agregarProductoCarrito(producto){
     }
     
     localStorage.setItem("carrito", JSON.stringify(productosCarrito));
-    actualizarAllProductos();
+    actualizarAllProductos(productosFiltros);
     cantidadProductosCarritoHtml.innerText = totalProductosCarrito;
 }
 
@@ -139,26 +207,10 @@ function desplegarAlertaAgregar({descripcion}) {
       });
 }
 
-function cargarEventosBotonesAgregar(){
-    productos.forEach(
-        (producto) => {
-            let boton = document.getElementById(`btn${producto.codigo}`);
-            
-            boton.addEventListener("click", (e) => {
-                boton.classList.toggle("disabled");
-                boton.innerHTML += 
-                `<div class="spinner-border text-light cardProducto__loading" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>`;
-                setTimeout(() => {
-                    boton.innerHTML = `<button class="btn btn-primary cardProducto__boton" id="btn${producto.codigo}">Agregar</button>`;
-                    agregarProductoCarrito(producto);
-                    desplegarAlertaAgregar(producto);
-                }, 2000);
-            });
-        }
-    ); 
-}
+//Función para eliminar acentos de una cadena
+const removerAcentos = (str) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+} 
 
 
 
@@ -168,8 +220,13 @@ const estandarFormatoMonedaPesos = Intl.NumberFormat("es-AR");
 //Recuperación del elemento html sección de productos
 let seccionProductos = document.getElementById("seccionProductos");
 
+//Recuperación de los elementos html del buscador
+let botonBuscar = document.getElementById("btnBuscar");
+let inputBuscar = document.getElementById("inputBuscar");
+
 //Inicialización array de productos
 let productos = [];
+let productosFiltros = [];
 
 //Recuperación de productos del carrito en localStorage
 let productosCarrito = (JSON.parse(localStorage.getItem("carrito")) || []);
@@ -178,4 +235,4 @@ let productosCarrito = (JSON.parse(localStorage.getItem("carrito")) || []);
 let totalProductosCarrito;
 let cantidadProductosCarritoHtml;
 
-obtenerTodosProductos();
+obtenerTodosProductos(undefined);

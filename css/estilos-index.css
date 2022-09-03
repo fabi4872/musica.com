@@ -1,0 +1,55 @@
+.header__buscador{
+    width: 30%;
+}
+.header__input{
+    border-radius: 1rem 0 0 1rem;
+    border: 0.1rem solid white;
+}
+.header__input:focus{
+    border: none;
+    box-shadow: none;
+}
+.header__input:active{
+    border: none;
+    box-shadow: none;
+}
+.header__btnBuscar{
+    border-radius: 0 1rem 1rem 0;
+    border: 0.1rem solid white;
+    color: white;
+}
+.header__btnBuscar:hover{
+    color: white;
+    border: 0.1rem solid #0f0f7c;
+    background: rgb(64,38,98);
+    background: -moz-linear-gradient(90deg, rgba(64,38,98,1) 0%, rgba(57,0,166,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(64,38,98,1) 0%, rgba(57,0,166,1) 100%);
+    background: linear-gradient(90deg, rgba(64,38,98,1) 0%, rgba(57,0,166,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#402662",endColorstr="#3900a6",GradientType=1);
+}
+
+
+
+@media screen and (max-width: 1150px){
+    .header{
+        height: 12rem;
+    }
+    .header__buscador{
+        width: 70%;
+        margin: 1rem 0;
+    }
+    .header__nav{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .header__logo{
+        margin-left: 0;
+    }
+    .header__list{
+        margin: 0;
+    }
+    .header__item{
+        margin: 0;
+    }
+}

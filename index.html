@@ -20,6 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap" rel="stylesheet">
     <link href="https: //fonts.googleapis.com/css2? familia= Roboto:peso@400;500;700;900 & display=swap" rel="hoja de estilo">
     <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/estilos-index.css">
     
     <title>Home</title>    
 </head>
@@ -28,6 +29,13 @@
     <header class="header">
         <nav class="header__nav">
             <h2 class="header__logo">musica.com</h2>
+
+            <div class="d-flex header__buscador">
+                <input class="form-control header__input" type="search" placeholder="Buscar productos..." value="" id="inputBuscar"" />
+                <button class="btn btn-outline-info header__btnBuscar d-flex justify-content-center align-items-center" type="button" id="btnBuscar">
+                    <i class="fa-solid fa-magnifying-glass header__icon"></i>
+                </button>
+            </div>
             
             <ul class="header__list">                
                 <i class="header__item">

@@ -42,7 +42,7 @@
     background: -webkit-linear-gradient(90deg, rgba(255,0,118,1) 0%, rgba(89,15,183,1) 100%);
     background: linear-gradient(90deg, rgba(255,0,118,1) 0%, rgba(89,15,183,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff0076",endColorstr="#590fb7",GradientType=1);
-    height: 6rem;
+    height: 7rem;
     border-radius: 0 0 2rem 2rem;
     border-bottom: 0.7rem solid #0f0f7c;
 }
