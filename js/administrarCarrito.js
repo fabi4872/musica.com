@@ -3,7 +3,11 @@ async function obtenerTodosProductos(){
     const URLPRODUCTOS = "../js/productos.json";
     let response = await fetch(URLPRODUCTOS);
     let data = await response.json();
-    productos = data;
+    
+    //Recorre todas las categorías y se queda con los productos
+    for(let i=0; i<data.categorias.length; i++){
+        productos = productos.concat(data.categorias[i].productos);
+    }
 
     //Dibuja el carrito
     dibujarCarrito();

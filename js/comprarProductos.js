@@ -1,4 +1,108 @@
 //Funciones
+async function obtenerTodosProductos() {
+    const URLPRODUCTOS = "./js/productos.json";
+    let response = await fetch(URLPRODUCTOS);
+    let data = await response.json();
+    dataJson = data;
+
+    //Recorre todas las categorías y se queda con los productos
+    for(let i=0; i<data.categorias.length; i++){
+        let categoria = {
+            descripcion: data.categorias[i].descripcion,
+            productos: data.categorias[i].productos
+        }
+        categorias.push(categoria);
+        productos = productos.concat(data.categorias[i].productos);
+    }
+
+    marcas = obtenerMarcas(categorias);
+
+    cargarEventoBuscar();
+    cargarSeccionProductos(productos);
+    cargarEventosBotonesAgregar(productos);
+
+    //Actualiza los productos a partir de los que están en el carrito (si corresponde)
+    productosCarrito && actualizarAllProductos(productos);
+
+    productosFiltros = productos;
+    categoriasFiltros = categorias;
+    marcasFiltros = marcas;
+    armarSeccionFiltros();
+}
+
+function obtenerCategorias(productosFiltros){
+    let arrayCategorias = [];
+    let descripcionCategorias = [];
+    productosFiltros.forEach((producto) => {
+        for(const categoria of categoriasFiltros){
+            if(categoria.productos.includes(producto)){
+                descripcionCategorias = arrayCategorias.map((elemento) => {return elemento.descripcion});
+                if(descripcionCategorias.includes(categoria.descripcion)){
+                    let indice = arrayCategorias.indexOf((cate) => cate.descripcion === categoria.descripcion);
+                    arrayCategorias[indice].productos.push(producto);
+                }
+                else{
+                    let categoriaNueva = {
+                        descripcion: categoria.descripcion,
+                        productos: []
+                    }
+                    categoriaNueva.productos.push(producto);
+                    arrayCategorias.push(categoriaNueva);
+                }
+            }
+        }
+    });
+
+    return arrayCategorias;
+}
+
+function obtenerMarcas(categorias){
+    let arrayMarcas = [];
+    let descripcionMarcas = [];
+    categorias.forEach((categoria) => {
+        for(const producto of categoria.productos){
+            descripcionMarcas = arrayMarcas.map((elemento) => {return elemento.descripcion});
+            if(descripcionMarcas.includes(producto.marca)){
+                let indice = arrayMarcas.indexOf((marca) => marca.descripcion === producto.marca);
+                arrayMarcas[indice].productos.push(producto);
+            }
+            else{
+                let marca = {
+                    descripcion: producto.marca,
+                    productos: []
+                }
+                marca.productos.push(producto);
+                arrayMarcas.push(marca);
+            }
+        }
+    });
+
+    return arrayMarcas;
+}
+
+function armarSeccionFiltros(){
+    detalleCategorias.innerHTML = "";
+    detalleMarcas.innerHTML = "";
+
+    //Armado filtros categorías
+    for(let i=0; i<categoriasFiltros.length; i++){
+        detalleCategorias.innerHTML += 
+        `<div class="form-check form-switch mt-2">
+            <input class="form-check-input seccionParametros__check" type="checkbox" id="categoria${i}" >
+            <label class="form-check-label seccionParametros__label" for="categoria${i}">${categoriasFiltros[i].descripcion} (${categoriasFiltros[i].productos.length})</label>
+        </div>`;
+    }
+
+    //Armado filtros de marcas
+    for(let i=0; i<marcasFiltros.length; i++){
+        detalleMarcas.innerHTML += 
+        `<div class="form-check form-switch mt-2">
+            <input class="form-check-input seccionParametros__check" type="checkbox" id="marca${i}" >
+            <label class="form-check-label seccionParametros__label" for="marca${i}">${marcasFiltros[i].descripcion} (${marcasFiltros[i].productos.length})</label>
+        </div>`;
+    }
+}
+
 function obtenerPalabrasClaveProducto(cadenaCompleta){
     let cadenaCompletaProducto = removerAcentos(cadenaCompleta);
     let arrayPalabrasProducto = (cadenaCompletaProducto.split(" ")).filter((palabra) => palabra != "");
@@ -30,7 +134,7 @@ function cargarEventosBotonesAgregar(productos){
 
 function cargarEventoBuscar(){
     botonBuscar.addEventListener("click", (e) => {
-        obtenerTodosProductos("busqueda");
+        filtrar();
     });
     inputBuscar.addEventListener("keyup", (event) => {
         if (event.key === "Enter")
@@ -40,41 +144,35 @@ function cargarEventoBuscar(){
     });
 }
 
-async function obtenerTodosProductos(parametros){
-    if(parametros == undefined){
-        const URLPRODUCTOS = "./js/productos.json";
-        let response = await fetch(URLPRODUCTOS);
-        let data = await response.json();
-        productos = data;
-        productosFiltros = productos;
-        cargarEventoBuscar();
-    }
-    else if(parametros == "busqueda"){
-        productosFiltros = [];
-        let cumpleCondicion = false;
-        let valorInputBuscar = removerAcentos(inputBuscar.value.trim());
-        let arrayPalabrasBusqueda = (valorInputBuscar.split(" ")).filter((palabra) => palabra != "");
-        productos.forEach((producto) => {
-            let arrayPalabrasProducto = obtenerPalabrasClaveProducto(`${producto.marca.trim()} ${producto.modelo.trim()} ${producto.descripcion.trim()}`);
-            
-            for(const palabra of arrayPalabrasBusqueda){
-                if(arrayPalabrasProducto.includes(palabra.toUpperCase())){
-                    cumpleCondicion = true;
-                }
-                else{
-                    cumpleCondicion = false;
-                    break;
-                }
-            }
-            cumpleCondicion && productosFiltros.push(producto);
-        });
-    }
+function filtrar(){
+    productosFiltros = [];
+    let cumpleCondicion = false;
+    let valorInputBuscar = removerAcentos(inputBuscar.value.trim());
+    let arrayPalabrasBusqueda = (valorInputBuscar.split(" ")).filter((palabra) => palabra != "");
+    productos.forEach((producto) => {
+        let arrayPalabrasProducto = obtenerPalabrasClaveProducto(`${producto.marca.trim()} ${producto.modelo.trim()} ${producto.descripcion.trim()}`);
 
+        for (const palabra of arrayPalabrasBusqueda) {
+            if (arrayPalabrasProducto.includes(palabra.toUpperCase())) {
+                cumpleCondicion = true;
+            }
+            else {
+                cumpleCondicion = false;
+                break;
+            }
+        }
+        cumpleCondicion && productosFiltros.push(producto);
+    });
+
+    categoriasFiltros = obtenerCategorias(productosFiltros);
+    marcasFiltros = obtenerMarcas(categoriasFiltros);
     cargarSeccionProductos(productosFiltros);
     cargarEventosBotonesAgregar(productosFiltros);
 
     //Actualiza los productos a partir de los que están en el carrito (si corresponde)
     productosCarrito && actualizarAllProductos(productosFiltros);
+
+    armarSeccionFiltros();
 }
 
 function cargarSeccionProductos(productos){
@@ -86,7 +184,7 @@ function cargarSeccionProductos(productos){
         let body = document.createElement("div");
     
         //Seteo de clase de la tarjeta
-        card.className = "col-12 col-md-6 col-lg-3 card cardProducto";
+        card.className = "col-12 col-md-6 col-lg-4 card cardProducto";
     
         //Seteo de clase para el contenedor de la imagen
         imageContainer.className = "cardProducto__imageContainer";
@@ -186,6 +284,7 @@ function agregarProductoCarrito(producto){
     localStorage.setItem("carrito", JSON.stringify(productosCarrito));
     actualizarAllProductos(productosFiltros);
     cantidadProductosCarritoHtml.innerText = totalProductosCarrito;
+    armarSeccionFiltros();
 }
 
 function calcularTotalProductosCarrito(){
@@ -220,13 +319,26 @@ const estandarFormatoMonedaPesos = Intl.NumberFormat("es-AR");
 //Recuperación del elemento html sección de productos
 let seccionProductos = document.getElementById("seccionProductos");
 
+//Recuperación de elementos html de categorías y marcas
+let seccionCategorias = document.getElementById("categorias");
+let seccionMarcas = document.getElementById("marcas");
+let detalleCategorias = document.getElementById("detalleCategorias");
+let detalleMarcas = document.getElementById("detalleMarcas");
+
 //Recuperación de los elementos html del buscador
 let botonBuscar = document.getElementById("btnBuscar");
 let inputBuscar = document.getElementById("inputBuscar");
 
-//Inicialización array de productos
+//Inicialización de arrays
 let productos = [];
+let categorias = [];
+let marcas = [];
 let productosFiltros = [];
+let categoriasFiltros = [];
+let marcasFiltros = [];
+
+//Json resultante de la consulta inicial de todos los productos
+let dataJson;
 
 //Recuperación de productos del carrito en localStorage
 let productosCarrito = (JSON.parse(localStorage.getItem("carrito")) || []);
@@ -235,4 +347,4 @@ let productosCarrito = (JSON.parse(localStorage.getItem("carrito")) || []);
 let totalProductosCarrito;
 let cantidadProductosCarritoHtml;
 
-obtenerTodosProductos(undefined);
+obtenerTodosProductos();

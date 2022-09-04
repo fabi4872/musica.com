@@ -103,10 +103,36 @@
 .main{
     grid-area: main;
     display: flex;
-    flex-flow: column wrap;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     margin: 5rem 0;
+}
+
+
+
+.seccionParametros{
+    align-self: flex-start;
+    background-color: rgb(250, 219, 250);
+    border-radius: 0.4rem;
+    border: 0.2rem solid violet;
+    height: auto;
+    margin: 1rem;
+}
+.seccionParametros__titulo{
+    font-weight: 800;
+}
+.seccionParametros__items{
+    display: flex;
+    flex-flow: column wrap;
+}
+.seccionParametros__label{
+    color: #0c0a83;
+    font-weight: 700;
+    cursor: pointer;
+}
+.seccionParametros__check{
+    cursor: pointer;
 }
 
 

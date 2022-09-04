@@ -5,14 +5,6 @@
     border-radius: 1rem 0 0 1rem;
     border: 0.1rem solid white;
 }
-.header__input:focus{
-    border: none;
-    box-shadow: none;
-}
-.header__input:active{
-    border: none;
-    box-shadow: none;
-}
 .header__btnBuscar{
     border-radius: 0 1rem 1rem 0;
     border: 0.1rem solid white;
