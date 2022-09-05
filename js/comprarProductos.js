@@ -16,14 +16,8 @@ async function obtenerTodosProductos() {
     }
 
     marcas = obtenerMarcas(categorias);
-
     cargarEventoBuscar();
-    cargarSeccionProductos(productos);
-    cargarEventosBotonesAgregar(productos);
-
-    //Actualiza los productos a partir de los que están en el carrito (si corresponde)
-    productosCarrito && actualizarAllProductos(productos);
-
+    generarCargas(productos);
     productosFiltros = productos;
     categoriasFiltros = categorias;
     marcasFiltros = marcas;
@@ -34,7 +28,7 @@ function obtenerCategorias(productosFiltros){
     let arrayCategorias = [];
     let descripcionCategorias = [];
     productosFiltros.forEach((producto) => {
-        for(const categoria of categoriasFiltros){
+        for(const categoria of categorias){
             if(categoria.productos.includes(producto)){
                 descripcionCategorias = arrayCategorias.map((elemento) => {return elemento.descripcion});
                 if(descripcionCategorias.includes(categoria.descripcion)){
@@ -83,23 +77,35 @@ function obtenerMarcas(categorias){
 function armarSeccionFiltros(){
     detalleCategorias.innerHTML = "";
     detalleMarcas.innerHTML = "";
-
+    
     //Armado filtros categorías
     for(let i=0; i<categoriasFiltros.length; i++){
         detalleCategorias.innerHTML += 
         `<div class="form-check form-switch mt-2">
-            <input class="form-check-input seccionParametros__check" type="checkbox" id="categoria${i}" >
-            <label class="form-check-label seccionParametros__label" for="categoria${i}">${categoriasFiltros[i].descripcion} (${categoriasFiltros[i].productos.length})</label>
+        <input class="form-check-input seccionParametros__check" type="checkbox" id="categoria${i}" />
+        <label class="form-check-label seccionParametros__label" for="categoria${i}">${categoriasFiltros[i].descripcion} (${categoriasFiltros[i].productos.length})</label>
         </div>`;
     }
-
+    
     //Armado filtros de marcas
     for(let i=0; i<marcasFiltros.length; i++){
         detalleMarcas.innerHTML += 
         `<div class="form-check form-switch mt-2">
-            <input class="form-check-input seccionParametros__check" type="checkbox" id="marca${i}" >
-            <label class="form-check-label seccionParametros__label" for="marca${i}">${marcasFiltros[i].descripcion} (${marcasFiltros[i].productos.length})</label>
+        <input class="form-check-input seccionParametros__check" type="checkbox" id="marca${i}" >
+        <label class="form-check-label seccionParametros__label" for="marca${i}">${marcasFiltros[i].descripcion} (${marcasFiltros[i].productos.length})</label>
         </div>`;
+    }
+
+    for(let i=0; i<categoriasFiltros.length; i++){
+        document.getElementById(`categoria${i}`).addEventListener("change", (e) => {
+            filtrar();
+        });
+    }
+
+    for(let i=0; i<marcasFiltros.length; i++){
+        document.getElementById(`marca${i}`).addEventListener("change", (e) => {
+            filtrar();
+        });
     }
 }
 
@@ -134,7 +140,8 @@ function cargarEventosBotonesAgregar(productos){
 
 function cargarEventoBuscar(){
     botonBuscar.addEventListener("click", (e) => {
-        filtrar();
+        productosFiltros = productos;
+        buscar();
     });
     inputBuscar.addEventListener("keyup", (event) => {
         if (event.key === "Enter")
@@ -144,35 +151,61 @@ function cargarEventoBuscar(){
     });
 }
 
-function filtrar(){
-    productosFiltros = [];
-    let cumpleCondicion = false;
+function buscar(){
     let valorInputBuscar = removerAcentos(inputBuscar.value.trim());
     let arrayPalabrasBusqueda = (valorInputBuscar.split(" ")).filter((palabra) => palabra != "");
-    productos.forEach((producto) => {
+    productosFiltros = productosFiltros.filter((producto) => {
         let arrayPalabrasProducto = obtenerPalabrasClaveProducto(`${producto.marca.trim()} ${producto.modelo.trim()} ${producto.descripcion.trim()}`);
 
-        for (const palabra of arrayPalabrasBusqueda) {
-            if (arrayPalabrasProducto.includes(palabra.toUpperCase())) {
-                cumpleCondicion = true;
+        for(const palabra of arrayPalabrasBusqueda){
+            if (arrayPalabrasProducto.includes(palabra.toUpperCase())){
+                return producto;
             }
-            else {
-                cumpleCondicion = false;
+            else{
                 break;
             }
         }
-        cumpleCondicion && productosFiltros.push(producto);
     });
 
     categoriasFiltros = obtenerCategorias(productosFiltros);
     marcasFiltros = obtenerMarcas(categoriasFiltros);
-    cargarSeccionProductos(productosFiltros);
-    cargarEventosBotonesAgregar(productosFiltros);
-
-    //Actualiza los productos a partir de los que están en el carrito (si corresponde)
-    productosCarrito && actualizarAllProductos(productosFiltros);
-
+    generarCargas(productosFiltros);    
     armarSeccionFiltros();
+}
+
+function filtrar(){
+    productosMostrar = [];
+    let cantidad = 0;
+
+    for(const categoria of categoriasFiltros){
+        if(document.getElementById(`categoria${cantidad}`).checked){
+            categoria.productos.forEach((producto) => {
+                !productosMostrar.includes(producto) && productosMostrar.push(producto);
+            });
+        }
+        cantidad++;
+    }
+
+    cantidad = 0;
+
+    for(const marca of marcasFiltros){
+        if(document.getElementById(`marca${cantidad}`).checked){
+            marca.productos.forEach((producto) => {
+                !productosMostrar.includes(producto) && productosMostrar.push(producto);
+            });
+        }
+        cantidad++;
+    }
+       
+    (productosMostrar.length == 0) ? generarCargas(productosFiltros) : generarCargas(productosMostrar);
+}
+
+function generarCargas(productos){
+    cargarSeccionProductos(productos);
+    cargarEventosBotonesAgregar(productos);
+    
+    //Actualiza los productos a partir de los que están en el carrito (si corresponde)
+    productosCarrito && actualizarAllProductos(productos);
 }
 
 function cargarSeccionProductos(productos){
@@ -334,6 +367,7 @@ let productos = [];
 let categorias = [];
 let marcas = [];
 let productosFiltros = [];
+let productosMostrar = [];
 let categoriasFiltros = [];
 let marcasFiltros = [];
 
