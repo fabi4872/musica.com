@@ -152,6 +152,11 @@ function cargarEventoBuscar(){
 }
 
 function buscar(){
+    seccionProductos.style.display = "none";
+    seccionParametros.style.display = "none";
+    seccionBusquedaVacia.style.display = "none";
+    seccionCargando.style.display = "";
+
     let valorInputBuscar = removerAcentos(inputBuscar.value.trim());
     let arrayPalabrasBusqueda = (valorInputBuscar.split(" ")).filter((palabra) => palabra != "");
     productosFiltros = productosFiltros.filter((producto) => {
@@ -206,6 +211,18 @@ function generarCargas(productos){
     
     //Actualiza los productos a partir de los que están en el carrito (si corresponde)
     productosCarrito && actualizarAllProductos(productos);
+
+    setTimeout(() => {
+        seccionCargando.style.display = "none";
+
+        if(productos.length > 0){
+            seccionProductos.style.display = "";
+            seccionParametros.style.display = "";
+        }
+        else{
+            seccionBusquedaVacia.style.display = "";
+        }
+    }, 2000);
 }
 
 function cargarSeccionProductos(productos){
@@ -349,8 +366,17 @@ const removerAcentos = (str) => {
 //Formato de moneda nacional
 const estandarFormatoMonedaPesos = Intl.NumberFormat("es-AR");
 
+//Recuperación del elemento html sección de cargando
+let seccionCargando = document.getElementById("cargandoProductos");
+
 //Recuperación del elemento html sección de productos
 let seccionProductos = document.getElementById("seccionProductos");
+
+//Recuperación del elemento html sección de parámetros
+let seccionParametros = document.getElementById("seccionParametros");
+
+//Recuperación del elemento html sección de búsqueda vacía
+let seccionBusquedaVacia = document.getElementById("seccionBusquedaVacia");
 
 //Recuperación de elementos html de categorías y marcas
 let seccionCategorias = document.getElementById("categorias");
@@ -380,5 +406,10 @@ let productosCarrito = (JSON.parse(localStorage.getItem("carrito")) || []);
 //Declaración de variables necesarias para manejar la cantidad de productos del carrito
 let totalProductosCarrito;
 let cantidadProductosCarritoHtml;
+
+//Elementos ocultos al inicio de carga
+seccionProductos.style.display = "none";
+seccionParametros.style.display = "none";
+seccionBusquedaVacia.style.display = "none";
 
 obtenerTodosProductos();
