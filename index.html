@@ -21,7 +21,7 @@
     <link href="https: //fonts.googleapis.com/css2? familia= Roboto:peso@400;500;700;900 & display=swap" rel="hoja de estilo">
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet" href="css/estilos-index.css">
-    
+
     <title>Home</title>    
 </head>
 
@@ -45,53 +45,20 @@
         </nav>
     </header>
 
-    <main class="main container-fluid">
-        <section id="cargandoProductos" class="load-wrapp visible">
+    <div class="preload">
+        <!-- <div class="lds-heart"><div></div></div> -->
+        <div id="cargaProductos" class="load-wrapp">
             <div class="load-3">
                 <p>Cargando...</p>
                 <div class="line"></div>
                 <div class="line"></div>
                 <div class="line"></div>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <section class="seccionBusquedaVacia oculto" id="seccionBusquedaVacia">
-            <div class="seccionBusquedaVacia__imageContainer">
-                <img class="seccionBusquedaVacia__image" src="./assets/images/sin-resultados.jpg" alt="Imagen sin resultados">
-            </div>
-
-            <p class="seccionBusquedaVacia__descripcion">No hay resultados para mostrar</p>
-
-            <a href="" class="btn btn-success seccionBusquedaVacia__button">
-                Restablecer
-            </a>
-        </section>
-
-        <section class="col-12 col-lg-2 seccionParametros oculto" id="seccionParametros">
-            <article class="p-4 seccionParametros__items oculto" id="categorias">
-                <h5 class="seccionParametros__titulo mb-3">
-                    <strong class="seccionParametros__strong oculto" id="strongCategorias">Categorías</strong>
-                </h5>
-
-                <div class="seccionParametros__detalleCategorias" id="detalleCategorias"">
-
-                </div>
-            </article>
-
-            <article class="p-4 seccionParametros__items oculto" id="marcas">
-                <h5 class="seccionParametros__titulo mb-3">
-                    <strong class="seccionParametros__strong oculto" id="strongMarcas">Marcas</strong>
-                </h5>  
-
-                <div class="seccionParametros__detalleMarcas" id="detalleMarcas"">
-
-                </div>
-            </article>
-        </section>
-
-        <section class="col-12 col-lg-8 seccionProductos oculto" id="seccionProductos">
-            
-        </section>
+    <main class="main container-fluid" id="main">
+        
     </main>
 
     <footer class="footer">

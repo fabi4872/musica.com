@@ -21,7 +21,6 @@ async function obtenerTodosProductos() {
     productosFiltros = productos;
     categoriasFiltros = categorias;
     marcasFiltros = marcas;
-    armarSeccionFiltros();
 }
 
 function obtenerCategorias(productosFiltros){
@@ -152,23 +151,8 @@ function cargarEventoBuscar(){
 }
 
 function buscar(){
-    seccionProductos.innerHTML = "";
-    seccionCargando.classList.remove("oculto");
-    seccionCargando.classList.add("visible");
-    seccionCategorias.classList.remove("visible");
-    seccionMarcas.classList.remove("visible");
-    strongCategorias.classList.remove("visible");
-    strongMarcas.classList.remove("visible");
-    seccionProductos.classList.remove("visible");
-    seccionParametros.classList.remove("visible");
-    seccionBusquedaVacia.classList.remove("visible");
-    strongCategorias.classList.add("oculto");
-    strongMarcas.classList.add("oculto");
-    seccionCategorias.classList.add("oculto");
-    seccionMarcas.classList.add("oculto");
-    seccionProductos.classList.add("oculto");
-    seccionParametros.classList.add("oculto");
-    seccionBusquedaVacia.classList.add("oculto");
+    preload.classList.remove("cerrar");
+    preload.style.zIndex=90000;
 
     let valorInputBuscar = removerAcentos(inputBuscar.value.trim());
     let arrayPalabrasBusqueda = (valorInputBuscar.split(" ")).filter((palabra) => palabra != "");
@@ -188,7 +172,6 @@ function buscar(){
     categoriasFiltros = obtenerCategorias(productosFiltros);
     marcasFiltros = obtenerMarcas(categoriasFiltros);
     generarCargas(productosFiltros);    
-    armarSeccionFiltros();
 }
 
 function filtrar(){
@@ -215,37 +198,34 @@ function filtrar(){
         cantidad++;
     }
        
-    (productosMostrar.length == 0) ? generarCargas(productosFiltros) : generarCargas(productosMostrar);
+    (productosMostrar.length == 0) ? generarCargasSinLoading(productosFiltros) : generarCargasSinLoading(productosMostrar);
+}
+
+function generarCargasSinLoading(productos){
+    cargarSeccionProductos(productos);
+    cargarEventosBotonesAgregar(productos);
+    productosCarrito && actualizarAllProductos(productos);
 }
 
 function generarCargas(productos){
     setTimeout(() => {
-        cargarSeccionProductos(productos);
-        cargarEventosBotonesAgregar(productos);
-        
-        //Actualiza los productos a partir de los que están en el carrito (si corresponde)
-        productosCarrito && actualizarAllProductos(productos);
-        
-        seccionCargando.classList.remove("visible");
-        seccionCargando.classList.add("oculto");
-
         if(productos.length > 0){
-            seccionCategorias.classList.remove("oculto");
-            seccionMarcas.classList.remove("oculto");
-            seccionProductos.classList.remove("oculto");
-            seccionParametros.classList.remove("oculto");
-            seccionCategorias.classList.add("visible");
-            seccionMarcas.classList.add("visible");
-            strongCategorias.classList.add("visible");
-            strongMarcas.classList.add("visible");
-            seccionProductos.classList.add("visible");
-            seccionParametros.classList.add("visible");
+            armarEstructuraHtmlProductos();
+            cargarSeccionProductos(productos);
+            cargarEventosBotonesAgregar(productos);
+            
+            //Actualiza los productos a partir de los que están en el carrito (si corresponde)
+            productosCarrito && actualizarAllProductos(productos);
+
+            armarSeccionFiltros();
         }
         else{
-            seccionBusquedaVacia.classList.remove("oculto");
-            seccionBusquedaVacia.classList.add("visible");
+            armarEstructuraHtmlBusquedaVacia();
         }
-    }, 2000);
+        
+        preload.classList.add("cerrar");
+        preload.style.zIndex = -1;
+    }, 4000);
 }
 
 function cargarSeccionProductos(productos){
@@ -384,34 +364,83 @@ const removerAcentos = (str) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 } 
 
+//Arma estructura html para productos dentro del main de index
+function armarEstructuraHtmlProductos(){
+    main.innerHTML = `
+        <section class="col-12 col-lg-2 seccionParametros" id="seccionParametros">
+            <article class="p-4 seccionParametros__items" id="categorias">
+                <h5 class="seccionParametros__titulo mb-3">
+                    <strong class="seccionParametros__strong" id="strongCategorias">Categorías</strong>
+                </h5>
+
+                <div class="seccionParametros__detalleCategorias" id="detalleCategorias"">
+
+                </div>
+            </article>
+
+            <article class="p-4 seccionParametros__items" id="marcas">
+                <h5 class="seccionParametros__titulo mb-3">
+                    <strong class="seccionParametros__strong" id="strongMarcas">Marcas</strong>
+                </h5>  
+
+                <div class="seccionParametros__detalleMarcas" id="detalleMarcas"">
+
+                </div>
+            </article>
+        </section>
+
+        <section class="col-12 col-lg-8 seccionProductos" id="seccionProductos">
+    
+        </section>
+    `;
+
+    seccionProductos = document.getElementById("seccionProductos");
+    seccionParametros = document.getElementById("seccionParametros");
+    detalleCategorias = document.getElementById("detalleCategorias");
+    detalleMarcas = document.getElementById("detalleMarcas");
+}
+
+//Arma estructura html para búsqueda vacía dentro del main de index
+function armarEstructuraHtmlBusquedaVacia(){
+    main.innerHTML = `
+        <section class="seccionBusquedaVacia" id="seccionBusquedaVacia">
+            <div class="seccionBusquedaVacia__imageContainer">
+                <img class="seccionBusquedaVacia__image" src="./assets/images/sin-resultados.jpg" alt="Imagen sin resultados">
+            </div>
+
+            <p class="seccionBusquedaVacia__descripcion">No hay resultados para mostrar</p>
+
+            <a href="" class="btn btn-success seccionBusquedaVacia__button">
+                Restablecer
+            </a>
+        </section>
+    `;
+}
+
 
 
 //Formato de moneda nacional
 const estandarFormatoMonedaPesos = Intl.NumberFormat("es-AR");
 
-//Recuperación del elemento html sección de cargando
-let seccionCargando = document.getElementById("cargandoProductos");
+//Recuperación del elemento html main
+let main = document.getElementById("main");
 
-//Recuperación del elemento html sección de productos
-let seccionProductos = document.getElementById("seccionProductos");
-
-//Recuperación del elemento html sección de parámetros
-let seccionParametros = document.getElementById("seccionParametros");
-
-//Recuperación del elemento html sección de búsqueda vacía
-let seccionBusquedaVacia = document.getElementById("seccionBusquedaVacia");
-
-//Recuperación de elementos html de categorías y marcas
-let seccionCategorias = document.getElementById("categorias");
-let seccionMarcas = document.getElementById("marcas");
-let detalleCategorias = document.getElementById("detalleCategorias");
-let detalleMarcas = document.getElementById("detalleMarcas");
-let strongCategorias = document.getElementById("strongCategorias");
-let strongMarcas = document.getElementById("strongMarcas");
+//Recuperación de elemento html para loading
+let preload = document.querySelector(".preload");
 
 //Recuperación de los elementos html del buscador
 let botonBuscar = document.getElementById("btnBuscar");
 let inputBuscar = document.getElementById("inputBuscar");
+
+//Declaración del elemento html sección de productos
+let seccionProductos;
+
+//Declaración del elemento html sección de parámetros
+let seccionParametros;
+
+//Declaración de elementos html de categorías y marcas
+let detalleCategorias;
+let detalleMarcas;
 
 //Inicialización de arrays
 let productos = [];
@@ -432,4 +461,4 @@ let productosCarrito = (JSON.parse(localStorage.getItem("carrito")) || []);
 let totalProductosCarrito;
 let cantidadProductosCarritoHtml;
 
-setTimeout(obtenerTodosProductos, 3000);
+obtenerTodosProductos();
