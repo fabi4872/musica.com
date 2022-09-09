@@ -152,10 +152,23 @@ function cargarEventoBuscar(){
 }
 
 function buscar(){
-    seccionProductos.style.display = "none";
-    seccionParametros.style.display = "none";
-    seccionBusquedaVacia.style.display = "none";
-    seccionCargando.style.display = "";
+    seccionProductos.innerHTML = "";
+    seccionCargando.classList.remove("oculto");
+    seccionCargando.classList.add("visible");
+    seccionCategorias.classList.remove("visible");
+    seccionMarcas.classList.remove("visible");
+    strongCategorias.classList.remove("visible");
+    strongMarcas.classList.remove("visible");
+    seccionProductos.classList.remove("visible");
+    seccionParametros.classList.remove("visible");
+    seccionBusquedaVacia.classList.remove("visible");
+    strongCategorias.classList.add("oculto");
+    strongMarcas.classList.add("oculto");
+    seccionCategorias.classList.add("oculto");
+    seccionMarcas.classList.add("oculto");
+    seccionProductos.classList.add("oculto");
+    seccionParametros.classList.add("oculto");
+    seccionBusquedaVacia.classList.add("oculto");
 
     let valorInputBuscar = removerAcentos(inputBuscar.value.trim());
     let arrayPalabrasBusqueda = (valorInputBuscar.split(" ")).filter((palabra) => palabra != "");
@@ -206,21 +219,31 @@ function filtrar(){
 }
 
 function generarCargas(productos){
-    cargarSeccionProductos(productos);
-    cargarEventosBotonesAgregar(productos);
-    
-    //Actualiza los productos a partir de los que están en el carrito (si corresponde)
-    productosCarrito && actualizarAllProductos(productos);
-
     setTimeout(() => {
-        seccionCargando.style.display = "none";
+        cargarSeccionProductos(productos);
+        cargarEventosBotonesAgregar(productos);
+        
+        //Actualiza los productos a partir de los que están en el carrito (si corresponde)
+        productosCarrito && actualizarAllProductos(productos);
+        
+        seccionCargando.classList.remove("visible");
+        seccionCargando.classList.add("oculto");
 
         if(productos.length > 0){
-            seccionProductos.style.display = "";
-            seccionParametros.style.display = "";
+            seccionCategorias.classList.remove("oculto");
+            seccionMarcas.classList.remove("oculto");
+            seccionProductos.classList.remove("oculto");
+            seccionParametros.classList.remove("oculto");
+            seccionCategorias.classList.add("visible");
+            seccionMarcas.classList.add("visible");
+            strongCategorias.classList.add("visible");
+            strongMarcas.classList.add("visible");
+            seccionProductos.classList.add("visible");
+            seccionParametros.classList.add("visible");
         }
         else{
-            seccionBusquedaVacia.style.display = "";
+            seccionBusquedaVacia.classList.remove("oculto");
+            seccionBusquedaVacia.classList.add("visible");
         }
     }, 2000);
 }
@@ -383,6 +406,8 @@ let seccionCategorias = document.getElementById("categorias");
 let seccionMarcas = document.getElementById("marcas");
 let detalleCategorias = document.getElementById("detalleCategorias");
 let detalleMarcas = document.getElementById("detalleMarcas");
+let strongCategorias = document.getElementById("strongCategorias");
+let strongMarcas = document.getElementById("strongMarcas");
 
 //Recuperación de los elementos html del buscador
 let botonBuscar = document.getElementById("btnBuscar");
@@ -407,9 +432,4 @@ let productosCarrito = (JSON.parse(localStorage.getItem("carrito")) || []);
 let totalProductosCarrito;
 let cantidadProductosCarritoHtml;
 
-//Elementos ocultos al inicio de carga
-seccionProductos.style.display = "none";
-seccionParametros.style.display = "none";
-seccionBusquedaVacia.style.display = "none";
-
-obtenerTodosProductos();
+setTimeout(obtenerTodosProductos, 3000);
