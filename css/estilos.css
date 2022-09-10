@@ -299,6 +299,7 @@
     border: 0.2rem solid violet;
     height: auto;
     margin: 1rem;
+    width: auto;
 }
 .seccionParametros__titulo{
     font-weight: 800;
@@ -308,13 +309,14 @@
     flex-flow: column wrap;
 }
 .seccionParametros__label{
-    color: #0c0a83;
-    font-weight: 700;
+    color: rgb(245, 7, 245);
+    font-weight: 800;
     cursor: pointer;
+    font-size: 0.8rem;
 }
 .seccionParametros__check{
     cursor: pointer;
-    margin-top: 0.28rem;
+    margin-top: 0.33rem;
 }
 
 
@@ -365,9 +367,6 @@
     background: -webkit-linear-gradient(320deg, #0f0f7c 0%, #0f1687 25%, #17206f 50%, #0a0c5e 75%, #03207d 100%);
     background: linear-gradient(320deg, #0f0f7c 0%, #0f1687 25%, #17206f 50%, #0a0c5e 75%, #03207d 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0f0f7c", endColorstr="#03207d", GradientType=1);
-}
-.seccionCarrito__iconClean{
-    font-size: 1.5rem;
 }
 .seccionCarrito__precio{
     align-self: flex-end;
@@ -482,7 +481,8 @@
     align-items: center;
 }
 .cardProducto{
-    width: 20rem;
+    width: 16rem;
+    height: 30rem;
     margin: 1rem;
     padding: 0 1rem;
     border-radius: 0;
@@ -490,7 +490,7 @@
 }
 .cardProducto__imageContainer{
     width: auto;
-    height: 10rem;
+    height: 7rem;
 }
 .cardProducto__imagen{
     width: 100%;
@@ -500,7 +500,7 @@
 .cardProducto__body{
     display: flex;
     flex-flow: column wrap;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: flex-start;
 }
 .cardProducto__marca{
@@ -607,6 +607,12 @@
 
 
 @media screen and (max-width: 550px){
+    .cardProducto{
+        height: auto;
+    }
+    .cardProducto__imageContainer{
+        height: auto;
+    }
     .seccionCarrito__btnAcciones{
         flex-direction: column;
     }
@@ -623,6 +629,7 @@
     }
     .seccionCarrito__precio{
         font-size: 0.9rem;
+        padding-right: 0.5rem;
     }
     .finalizar{
         margin-right: 0;
@@ -657,5 +664,8 @@
     }
     .cardProducto__imagen{
         overflow: hidden;
+    }
+    .cardProductoCarrito__carritoVacio{
+        font-size: 1rem;
     }
 }

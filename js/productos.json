@@ -8,7 +8,7 @@
                     "imagen": "assets/kurzweil_sp2x.jpg", 
                     "marca": "Kurzweil",
                     "modelo": "Sp2x",
-                    "descripcion": "Piano eléctrico Kurzweil Sp2x, 88 teclas con peso piano martillo", 
+                    "descripcion": "Piano eléctrico Kurzweil Sp2x, 88 teclas peso piano", 
                     "cuotas": 12,
                     "envio": 1500, 
                     "precio": 200000,
@@ -24,7 +24,7 @@
                     "imagen": "assets/cort_x250_bk.jpg", 
                     "marca": "Cort",
                     "modelo": "X250-bk",
-                    "descripcion": "Guitarra eléctrica Cort X250-BK, cuerpo sólido con dos cutaways", 
+                    "descripcion": "Guitarra eléctrica Cort X250-BK, cuerpo sólido", 
                     "cuotas": 12,
                     "envio": 700, 
                     "precio": 300000,
@@ -49,14 +49,14 @@
             ]
         },
         {
-            "descripcion": "Placas de sonido",
+            "descripcion": "Placas",
             "productos": [
                 {
                     "codigo": 4, 
                     "imagen": "assets/focusrite_scarlett_2i4.jpg", 
                     "marca": "Focusrite",
                     "modelo": "Scarlett 2i4",
-                    "descripcion": "Placa de sonido Focusrite Scarlett 2i4, con conexión a USB", 
+                    "descripcion": "Placa de sonido Focusrite Scarlett 2i4 a USB", 
                     "cuotas": 12,
                     "envio": 350, 
                     "precio": 100000,
