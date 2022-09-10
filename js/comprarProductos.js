@@ -227,7 +227,7 @@ function generarCargas(productos){
         
         preload.classList.add("cerrar");
         preload.style.zIndex = -1;
-    }, 4000);
+    }, 2000);
 }
 
 function cargarSeccionProductos(productos){
