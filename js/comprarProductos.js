@@ -1,5 +1,6 @@
 //Funciones
 async function obtenerTodosProductos() {
+    main.innerHTML = "";
     const URLPRODUCTOS = "./js/productos.json";
     let response = await fetch(URLPRODUCTOS);
     let data = await response.json();
@@ -208,6 +209,7 @@ function generarCargasSinLoading(productos){
 }
 
 function generarCargas(productos){
+    main.innerHTML = "";
     setTimeout(() => {
         if(productos.length > 0){
             armarEstructuraHtmlProductos();

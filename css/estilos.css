@@ -609,4 +609,10 @@
     .header__item{
         margin: 0;
     }
+    .cardProducto{
+        width: 90%;
+    }
+    .cardProducto__imagen{
+        overflow: hidden;
+    }
 }
