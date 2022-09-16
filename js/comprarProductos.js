@@ -177,8 +177,7 @@ function buscar(){
 
 function cargarConOrden(productos) {
     let productosConOrden;
-    let orden = parseInt(localStorage.getItem("orden"));
-
+    
     if(orden == 1){
         productosConOrden = productos.sort((a, b) => { return (a.codigo - b.codigo) });
     }
@@ -417,8 +416,6 @@ function armarEstructuraHtmlProductos(){
     detalleCategorias = document.getElementById("detalleCategorias");
     detalleMarcas = document.getElementById("detalleMarcas");
 
-    let orden = parseInt(localStorage.getItem("orden"));
-
     if(orden == 2){
         //Agrega selected al option 2
         document.getElementById("valor2").setAttribute("selected", "");
@@ -430,6 +427,7 @@ function armarEstructuraHtmlProductos(){
 
     document.getElementById("orden").addEventListener("change", () => {
         localStorage.setItem("orden", document.getElementById("orden").value);
+        orden = document.getElementById("orden").value;
         filtrar();
     });
 }
@@ -486,6 +484,10 @@ let dataJson;
 
 //Recuperación de productos del carrito en localStorage
 let productosCarrito = (JSON.parse(localStorage.getItem("carrito")) || []);
+
+//Recuperación de criterio ordenamiento en localStorage
+let orden = (JSON.parse(localStorage.getItem("orden")) || 1);
+localStorage.setItem("orden", orden);
 
 //Declaración de variables necesarias para manejar la cantidad de productos del carrito
 let totalProductosCarrito;

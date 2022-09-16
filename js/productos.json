@@ -5,7 +5,7 @@
             "productos": [
                 {
                     "codigo": 1, 
-                    "imagen": "assets/kurzweil_sp2x.jpg", 
+                    "imagen": "assets/kurzweil_sp2x.png", 
                     "marca": "Kurzweil",
                     "modelo": "Sp2x",
                     "descripcion": "Piano eléctrico Kurzweil Sp2x, 88 teclas peso piano", 
@@ -21,7 +21,7 @@
             "productos": [
                 {
                     "codigo": 2, 
-                    "imagen": "assets/cort_x250_bk.jpg", 
+                    "imagen": "assets/cort_x250_bk.png", 
                     "marca": "Cort",
                     "modelo": "X250-bk",
                     "descripcion": "Guitarra eléctrica Cort X250-BK, cuerpo sólido", 
@@ -37,7 +37,7 @@
             "productos": [
                 {
                     "codigo": 3, 
-                    "imagen": "assets/knight_jbts_100.jpg", 
+                    "imagen": "assets/knight_jbts_100.png", 
                     "marca": "Knight",
                     "modelo": "Jbts-100",
                     "descripcion": "Saxo tenor Knight JBTS-100 Laqueado, llave de F#", 
@@ -53,7 +53,7 @@
             "productos": [
                 {
                     "codigo": 4, 
-                    "imagen": "assets/focusrite_scarlett_2i4.jpg", 
+                    "imagen": "assets/focusrite_scarlett_2i4.png", 
                     "marca": "Focusrite",
                     "modelo": "Scarlett 2i4",
                     "descripcion": "Placa de sonido Focusrite Scarlett 2i4 a USB", 
