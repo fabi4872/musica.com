@@ -439,14 +439,10 @@ function armarEstructuraHtmlBusquedaVacia(){
     main.innerHTML = `
         <section class="seccionBusquedaVacia" id="seccionBusquedaVacia">
             <div class="seccionBusquedaVacia__imageContainer">
-                <img class="seccionBusquedaVacia__image" src="./assets/images/sin-resultados.jpg" alt="Imagen sin resultados">
+                <img class="seccionBusquedaVacia__image" src="./assets/images/sin-resultados-sb.png" alt="Imagen sin resultados">
             </div>
 
             <p class="seccionBusquedaVacia__descripcion">No hay resultados para mostrar</p>
-
-            <a href="" class="btn btn-success seccionBusquedaVacia__button">
-                Restablecer
-            </a>
         </section>
     `;
 }

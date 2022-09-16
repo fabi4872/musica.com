@@ -277,17 +277,20 @@
     flex-flow: column wrap;
     justify-content: center;
     align-items: center;
+    width: auto;
 }
 .seccionBusquedaVacia__imageContainer{
     width: 100%;
-    height: auto;
+    margin-top: -2rem;
 }
 .seccionBusquedaVacia__image{
     height: 100%;
     width: 100%;
 }
-.seccionBusquedaVacia__button{
-    margin-bottom: 4rem;
+.seccionBusquedaVacia__descripcion{
+    color: #0c0a83;
+    font-weight: bold;
+    font-size: 1.2rem;
 }
 
 
@@ -675,5 +678,8 @@
     }
     .cardProductoCarrito__carritoVacio{
         font-size: 1rem;
+    }
+    .seccionBusquedaVacia__descripcion{
+        font-size: 0.9rem;
     }
 }
