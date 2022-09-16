@@ -295,11 +295,12 @@
 .seccionParametros{
     align-self: flex-start;
     background-color: rgb(250, 219, 250);
-    border-radius: 0.4rem;
-    border: 0.2rem solid violet;
+    border: none;
     height: auto;
     margin: 1rem;
     width: auto;
+    border-top: 0.5rem solid #4646bb;
+    border-radius: 0.5rem 0.5rem 0 0;
 }
 .seccionParametros__titulo{
     font-weight: 800;
@@ -309,7 +310,7 @@
     flex-flow: column wrap;
 }
 .seccionParametros__label{
-    color: rgb(245, 7, 245);
+    color: #4646bb;
     font-weight: 800;
     cursor: pointer;
     font-size: 0.8rem;
@@ -492,9 +493,10 @@
     justify-self: flex-end;
     width: 15rem;
     cursor: pointer;
-    border: 0.2rem solid #222fa5;
+    border: 0.2rem solid violet;
 }
 .cardProducto__imageContainer{
+    margin-top: 1rem;
     width: auto;
     height: 7rem;
 }

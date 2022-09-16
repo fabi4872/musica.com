@@ -1,5 +1,8 @@
 .body{
-    background-color: rgb(250, 244, 244);
+    background-image: url(../assets/images/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
     height: 100vh;
     display: grid;
     grid-template-columns: 20% 1fr 20%;
