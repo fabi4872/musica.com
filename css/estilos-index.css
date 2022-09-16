@@ -1,3 +1,48 @@
+.body{
+    background-color: rgb(250, 244, 244);
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 20% 1fr 20%;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas: "header header header"
+                         "actualizadorProductos actualizadorProductos actualizadorProductos"
+                         "main main main"
+                         "footer footer footer";
+}
+
+
+
+.main{
+    grid-area: main;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 4rem 0 5rem 0;
+}
+
+
+
+.actualizadorProductos{
+    grid-area: actualizadorProductos;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    margin-top: 5rem;
+}
+.actualizadorProductos__icon{
+    font-size: 3rem;
+    color: #0f1687;
+    transition: transform .8s ease-in-out;
+}
+.actualizadorProductos__icon:hover{
+    color: rgb(216, 31, 216);
+    transform: rotate(360deg);
+}
+
+
+
 .header__buscador{
     width: 30%;
 }

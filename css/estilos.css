@@ -488,6 +488,12 @@
     border-radius: 0;
     box-shadow: 0 0.5rem 0.5rem 0 #333333;
 }
+.seccionProductos__select{
+    justify-self: flex-end;
+    width: 15rem;
+    cursor: pointer;
+    border: 0.2rem solid #222fa5;
+}
 .cardProducto__imageContainer{
     width: auto;
     height: 7rem;

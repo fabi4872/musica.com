@@ -175,6 +175,27 @@ function buscar(){
     generarCargas(productosFiltros);    
 }
 
+function cargarConOrden(productos) {
+    let productosConOrden;
+    let orden = parseInt(localStorage.getItem("orden"));
+
+    if(orden == 1){
+        productosConOrden = productos.sort((a, b) => { return (a.codigo - b.codigo) });
+    }
+    else if (orden == 2) {
+        productosConOrden = productos.sort((a, b) => { return (a.precio - b.precio) });
+    }
+    else if (orden == 3) {
+        productosConOrden = productos.sort((a, b) => { return (b.precio - a.precio) });
+    }
+
+    cargarSeccionProductos(productosConOrden);
+    cargarEventosBotonesAgregar(productosConOrden);
+
+    //Actualiza los productos a partir de los que están en el carrito (si corresponde)
+    productosCarrito && actualizarAllProductos(productosConOrden);
+}
+
 function filtrar(){
     productosMostrar = [];
     let cantidad = 0;
@@ -199,13 +220,7 @@ function filtrar(){
         cantidad++;
     }
        
-    (productosMostrar.length == 0) ? generarCargasSinLoading(productosFiltros) : generarCargasSinLoading(productosMostrar);
-}
-
-function generarCargasSinLoading(productos){
-    cargarSeccionProductos(productos);
-    cargarEventosBotonesAgregar(productos);
-    productosCarrito && actualizarAllProductos(productos);
+    (productosMostrar.length == 0) ? cargarConOrden(productosFiltros) : cargarConOrden(productosMostrar);
 }
 
 function generarCargas(productos){
@@ -213,12 +228,7 @@ function generarCargas(productos){
     setTimeout(() => {
         if(productos.length > 0){
             armarEstructuraHtmlProductos();
-            cargarSeccionProductos(productos);
-            cargarEventosBotonesAgregar(productos);
-            
-            //Actualiza los productos a partir de los que están en el carrito (si corresponde)
-            productosCarrito && actualizarAllProductos(productos);
-
+            cargarConOrden(productos);
             armarSeccionFiltros();
         }
         else{
@@ -371,6 +381,12 @@ function armarEstructuraHtmlProductos(){
     main.innerHTML = `
         <section class="col-12 col-lg-2 seccionParametros" id="seccionParametros">
             <article class="p-4 seccionParametros__items" id="categorias">
+                <select class="col-12 form-select seccionProductos__select mb-5" id="orden">
+                    <option value="1">Más relevantes</option>
+                    <option value="2" id="valor2">Menor precio</option>
+                    <option value="3" id="valor3">Mayor precio</option>
+                </select>
+
                 <h5 class="seccionParametros__titulo mb-2">
                     <strong class="seccionParametros__strong" id="strongCategorias">Categorías</strong>
                 </h5>
@@ -392,7 +408,7 @@ function armarEstructuraHtmlProductos(){
         </section>
 
         <section class="col-12 col-lg-8 seccionProductos" id="seccionProductos">
-    
+            
         </section>
     `;
 
@@ -400,6 +416,22 @@ function armarEstructuraHtmlProductos(){
     seccionParametros = document.getElementById("seccionParametros");
     detalleCategorias = document.getElementById("detalleCategorias");
     detalleMarcas = document.getElementById("detalleMarcas");
+
+    let orden = parseInt(localStorage.getItem("orden"));
+
+    if(orden == 2){
+        //Agrega selected al option 2
+        document.getElementById("valor2").setAttribute("selected", "");
+    }
+    else if(orden == 3){
+        //Agrega selected al option 3
+        document.getElementById("valor3").setAttribute("selected", "");
+    }
+
+    document.getElementById("orden").addEventListener("change", () => {
+        localStorage.setItem("orden", document.getElementById("orden").value);
+        filtrar();
+    });
 }
 
 //Arma estructura html para búsqueda vacía dentro del main de index
