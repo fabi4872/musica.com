@@ -251,10 +251,13 @@ function finalizarCompra(){
                 compras.push(compra);
                 localStorage.setItem("compras", JSON.stringify(compras));
                 localStorage.removeItem("carrito");
+                cantidadProductosCarritoHtml.innerText = "";
+                cantidadProductosComprasHtml.innerText = compras.length;
                 productosCarrito = [];
                 subtotalEnvios = 0;
                 subtotalPrecios = 0;
                 totalProductosCarrito = 0;
+                dibujarCarrito();
                 swal({
                     title: '¡Compra realizada con éxito!',
                     text: "Número de pedido: #" + numeroPedido,
@@ -288,6 +291,10 @@ let subtotalEnvios = 0;
 let subtotalPrecios = 0;
 let totalProductosCarrito = 0;
 const estandarFormatoMonedaPesos = Intl.NumberFormat("es-AR");
+
+//Manejo de cantidad compras en el html
+let cantidadProductosComprasHtml = document.getElementById("header__cantidadCompras");
+cantidadProductosComprasHtml.innerText = compras.length || "";
 
 //Evento al botón de limpiar todos los productos del carrito
 botonLimpiar.addEventListener("click", function(){

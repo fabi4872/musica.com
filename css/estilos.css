@@ -224,10 +224,11 @@
     display: flex;
     flex-wrap: wrap;
     list-style-type: none;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     margin: 0 2rem 0 0;
     padding: 0;
+    width: 15rem;
 }
 .header__item{
     margin: 0 2rem;
@@ -492,6 +493,7 @@
     border-radius: 0;
     box-shadow: 0 0.5rem 0.5rem 0 #333333;
     background-color: rgb(248, 227, 223);
+    border-top: 0.2rem solid violet;
 }
 .seccionProductos__select{
     justify-self: flex-end;

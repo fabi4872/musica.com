@@ -7,6 +7,7 @@ async function obtenerTodosProductos() {
     
     //Recorre todas las categorías y se queda con los productos
     for(let i=0; i<data.categorias.length; i++){
+        console.log(data.categorias.length);
         let categoria = {
             descripcion: data.categorias[i].descripcion,
             productos: data.categorias[i].productos
@@ -507,5 +508,9 @@ localStorage.setItem("orden", orden);
 //Declaración de variables necesarias para manejar la cantidad de productos del carrito
 let totalProductosCarrito;
 let cantidadProductosCarritoHtml;
+
+//Manejo de cantidad compras en el html
+let cantidadProductosComprasHtml = document.getElementById("header__cantidadCompras");
+cantidadProductosComprasHtml.innerText = compras.length || "";
 
 obtenerTodosProductos();
