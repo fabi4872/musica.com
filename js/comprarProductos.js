@@ -4,8 +4,7 @@ async function obtenerTodosProductos() {
     const URLPRODUCTOS = "./js/productos.json";
     let response = await fetch(URLPRODUCTOS);
     let data = await response.json();
-    dataJson = data;
-
+    
     //Recorre todas las categorías y se queda con los productos
     for(let i=0; i<data.categorias.length; i++){
         let categoria = {
@@ -16,12 +15,24 @@ async function obtenerTodosProductos() {
         productos = productos.concat(data.categorias[i].productos);
     }
 
+    //Actualiza el stock, respecto a las compras
+    for(let i=0; i<compras.length; i++){
+        for(let producto of compras[i].productos){
+            actualizarStockProductoFromCompra(producto);
+        }
+    }
+
     marcas = obtenerMarcas(categorias);
     cargarEventoBuscar();
     generarCargas(productos);
     productosFiltros = productos;
     categoriasFiltros = categorias;
     marcasFiltros = marcas;
+}
+
+function actualizarStockProductoFromCompra({codigo, cantidad}){
+    let productoActualizar = productos.find((producto) => producto.codigo === codigo);
+    productoActualizar.cantidad = productoActualizar.cantidad - cantidad;
 }
 
 function obtenerCategorias(productosFiltros){
@@ -281,6 +292,10 @@ function cargarSeccionProductos(productos){
             <button class="btn btn-primary cardProducto__boton" id="btn${producto.codigo}">Agregar</button>
         </div>`;
         seccionProductos.appendChild(card);
+
+        if(producto.cantidad < 1){
+            actualizarBotonAgregar(producto.codigo, false);
+        }
     });
 
     //Variable para cantidad total de productos (se muestra junto al ícono de carrito, en el header)
@@ -479,11 +494,11 @@ let productosMostrar = [];
 let categoriasFiltros = [];
 let marcasFiltros = [];
 
-//Json resultante de la consulta inicial de todos los productos
-let dataJson;
-
 //Recuperación de productos del carrito en localStorage
 let productosCarrito = (JSON.parse(localStorage.getItem("carrito")) || []);
+
+//Recuperación de compras en localStorage para descontar unidades al recuperar productos
+let compras = (JSON.parse(localStorage.getItem("compras")) || []);
 
 //Recuperación de criterio ordenamiento en localStorage
 let orden = (JSON.parse(localStorage.getItem("orden")) || 1);

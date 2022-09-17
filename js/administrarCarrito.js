@@ -9,8 +9,20 @@ async function obtenerTodosProductos(){
         productos = productos.concat(data.categorias[i].productos);
     }
 
+    //Actualiza el stock, respecto a las compras
+    for(let i=0; i<compras.length; i++){
+        for(let producto of compras[i].productos){
+            actualizarStockProductoFromCompra(producto);
+        }
+    }
+
     //Dibuja el carrito
     dibujarCarrito();
+}
+
+function actualizarStockProductoFromCompra({codigo, cantidad}){
+    let productoActualizar = productos.find((producto) => producto.codigo === codigo);
+    productoActualizar.cantidad = productoActualizar.cantidad - cantidad;
 }
 
 function setearImportesHtml(){
@@ -209,10 +221,64 @@ function desplegarAlertaConfirmarEliminacion(mensajeAdvertencia, mensajeConfirma
         });
 }
 
+function finalizarCompra(){
+    swal({
+        title: '¿Desea proceder?',
+        text: "El precio final de la compra es de ARS " + estandarFormatoMonedaPesos.format(parseFloat(subtotalPrecios + subtotalEnvios).toFixed(2)),
+        icon: 'warning',
+        buttons: {
+            cancelar: {
+                text: "Cancelar",
+                value: false,
+                className: 'alert__btnCancelar'
+            },
+            confirmar: {
+                text: "Pagar",
+                value: true,
+                className: 'alert__btnConfirmar'
+            }
+        },
+        dangerMode: true
+    })
+        .then((willConfirm) => {
+            if (willConfirm) {
+                let numeroPedido = Math.floor(Math.random() * 1000000);
+                let compra = {
+                    numeroPedido: numeroPedido,     
+                    productos: productosCarrito,
+                    fecha: new Date().toDateString() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds() 
+                };
+                compras.push(compra);
+                localStorage.setItem("compras", JSON.stringify(compras));
+                localStorage.removeItem("carrito");
+                productosCarrito = [];
+                subtotalEnvios = 0;
+                subtotalPrecios = 0;
+                totalProductosCarrito = 0;
+                swal({
+                    title: '¡Compra realizada con éxito!',
+                    text: "Número de pedido: #" + numeroPedido,
+                    icon: 'success',
+                    type: "success",
+                    buttons: {
+                        confirmar: {
+                            text: "Ir a mis compras",
+                            value: true,
+                            className: 'alert__btnConfirmar'
+                        }
+                    },
+                }).then(function() {
+                    window.location.href = "compras.html";
+                })
+            }
+    });
+}
+
 
 
 //Inicialización de variables
 let productosCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
+let compras = JSON.parse(localStorage.getItem("compras")) || [];
 let productos = [];
 let seccionCarrito = document.getElementById("seccionCarrito");
 let botonLimpiar = document.getElementById("btnLimpiar");
@@ -226,6 +292,11 @@ const estandarFormatoMonedaPesos = Intl.NumberFormat("es-AR");
 //Evento al botón de limpiar todos los productos del carrito
 botonLimpiar.addEventListener("click", function(){
     desplegarAlertaConfirmarEliminacion("Todos los productos del carrito serán eliminados", "Se eliminaron todos los productos del carrito satisfactoriamente", undefined);
+});
+
+//Evento al botón de finalizar compra
+botonFinalizar.addEventListener("click", function(){
+    finalizarCompra();
 });
 
 obtenerTodosProductos();
