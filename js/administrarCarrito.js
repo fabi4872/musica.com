@@ -71,14 +71,19 @@ function armarRetornarElementoCarrito(producto){
     cardProductoCarritoBody.className = "card-body cardProductoCarrito__body";
     
     cardProductoCarritoBody.innerHTML = `
-        <div class="col-12 col-lg-6 cardProductoCarrito__imagenContainer p-3">
+        <div class="col-12 col-md-4 cardProductoCarrito__imagenContainer p-3">
             <img class="cardProductoCarrito__imagen" src="../${producto.imagen}" alt="Imagen de producto" />
         </div>
 
-        <div class="col-12 col-lg-6 cardProductoCarrito__detalle flexVertical p-3">
+        <div class="col-12 col-md-5 cardProductoCarrito__detalle flexVertical p-3">
             <h5 class="card-title cardProductoCarrito__marca">${producto.marca.toUpperCase()}</h5>
             <h6 class="card-subtitle mb-2 text-muted cardProductoCarrito__modelo">Modelo ${producto.modelo.toUpperCase()}</h6>
             <p class="card-text cardProductoCarrito__descripcion mt-2">${producto.descripcion}</p>
+        </div>
+
+        <div class="col-12 col-md-3 cardProductoCarrito__subTotales flexVertical p-3">
+            <h6 class="cardProductoCarrito__titulo">Cuotas</h6>
+            <h5 class="cardProductoCarrito__subTotalEnvio cardProductoCarrito__importe">${producto.cuotas} sin interés</h5>
         </div>
 
         <div class="col-12 col-md-5 cardProductoCarrito__subTotales flexVertical p-3">
