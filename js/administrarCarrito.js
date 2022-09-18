@@ -17,7 +17,11 @@ async function obtenerTodosProductos(){
     }
 
     //Dibuja el carrito
-    dibujarCarrito();
+    setTimeout(() => {
+        dibujarCarrito();
+        preload.classList.add("cerrar");
+        preload.style.zIndex = -1;
+    }, 2000);
 }
 
 function actualizarStockProductoFromCompra({codigo, cantidad}){
@@ -251,7 +255,9 @@ function finalizarCompra(){
                 let compra = {
                     numeroPedido: numeroPedido,     
                     productos: productosCarrito,
-                    fecha: new Date().toDateString() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds() 
+                    fecha: new Date().toDateString() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
+                    subtotalEnvios: subtotalEnvios,
+                    subtotalPrecios: subtotalPrecios
                 };
                 compras.push(compra);
                 localStorage.setItem("compras", JSON.stringify(compras));
@@ -296,6 +302,9 @@ let subtotalEnvios = 0;
 let subtotalPrecios = 0;
 let totalProductosCarrito = 0;
 const estandarFormatoMonedaPesos = Intl.NumberFormat("es-AR");
+
+//Recuperación de elemento html para loading
+let preload = document.querySelector(".preload");
 
 //Manejo de cantidad compras en el html
 let cantidadProductosComprasHtml = document.getElementById("header__cantidadCompras");

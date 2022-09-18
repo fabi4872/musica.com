@@ -303,7 +303,7 @@
     height: auto;
     margin: 1rem;
     width: auto;
-    border-top: 0.5rem solid #4646bb;
+    border-top: 0.3rem solid #4646bb;
     border-radius: 0.5rem 0.5rem 0 0;
 }
 .seccionParametros__titulo{
@@ -580,6 +580,24 @@
     height: 1rem;
     margin-top: 0.3rem;
 }
+
+
+
+.modal-content{
+    border: 0.2rem solid white;
+}
+.modal-header{
+    background: rgb(255,0,118);
+    background: -moz-linear-gradient(90deg, rgba(255,0,118,1) 0%, rgba(89,15,183,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(255,0,118,1) 0%, rgba(89,15,183,1) 100%);
+    background: linear-gradient(90deg, rgba(255,0,118,1) 0%, rgba(89,15,183,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff0076",endColorstr="#590fb7",GradientType=1);
+}
+.modal-title{
+    font-weight: bold;
+    color: white;
+}
+
 
 
 
