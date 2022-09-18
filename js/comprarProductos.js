@@ -7,7 +7,6 @@ async function obtenerTodosProductos() {
     
     //Recorre todas las categorías y se queda con los productos
     for(let i=0; i<data.categorias.length; i++){
-        console.log(data.categorias.length);
         let categoria = {
             descripcion: data.categorias[i].descripcion,
             productos: data.categorias[i].productos
@@ -64,21 +63,21 @@ function obtenerCategorias(productosFiltros){
 
 function obtenerMarcas(categorias){
     let arrayMarcas = [];
-    let descripcionMarcas = [];
     categorias.forEach((categoria) => {
         for(const producto of categoria.productos){
-            descripcionMarcas = arrayMarcas.map((elemento) => {return elemento.descripcion});
-            if(descripcionMarcas.includes(producto.marca)){
-                let indice = arrayMarcas.indexOf((marca) => marca.descripcion === producto.marca);
-                arrayMarcas[indice].productos.push(producto);
-            }
-            else{
+            let marcaExistente = arrayMarcas.find((marca) => producto.marca === marca.descripcion);
+            if(marcaExistente == undefined){
                 let marca = {
                     descripcion: producto.marca,
                     productos: []
                 }
                 marca.productos.push(producto);
                 arrayMarcas.push(marca);
+            }
+            else{
+                if(!(marcaExistente.productos.includes(producto.codigo))){
+                    marcaExistente.productos.push(producto);
+                }
             }
         }
     });
