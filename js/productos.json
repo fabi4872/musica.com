@@ -20,11 +20,59 @@
                     "imagen": "assets/casio_cdp_s110bk.png", 
                     "marca": "Casio",
                     "modelo": "Cdp-s110bk",
-                    "descripcion": "Piano digital Casio CDP-S110BK, 88 teclas", 
+                    "descripcion": "Piano digital Casio CDP-S110BK, 88 teclas sensitivo", 
                     "cuotas": 12,
                     "envio": 700, 
                     "precio": 250000,
                     "cantidad": 7,
+                    "categoria": "Pianos"
+                },
+                {
+                    "codigo": 13, 
+                    "imagen": "assets/casio_px_s1100.png", 
+                    "marca": "Casio",
+                    "modelo": "Px-s1100",
+                    "descripcion": "Piano digital Casio PX-S1100 88 teclas sensitivo rojo", 
+                    "cuotas": 12,
+                    "envio": 2000, 
+                    "precio": 150000,
+                    "cantidad": 5,
+                    "categoria": "Pianos"
+                },
+                {
+                    "codigo": 17, 
+                    "imagen": "assets/casio_px_160.png", 
+                    "marca": "Casio",
+                    "modelo": "Px-160",
+                    "descripcion": "Piano digital Casio Privia 88 teclas a Usb Px160", 
+                    "cuotas": 12,
+                    "envio": 1500, 
+                    "precio": 350000,
+                    "cantidad": 3,
+                    "categoria": "Pianos"
+                },
+                {
+                    "codigo": 18, 
+                    "imagen": "assets/kurzweil_mps110.png", 
+                    "marca": "Kurzweil",
+                    "modelo": "Mps110",
+                    "descripcion": "Piano digital Kurzweil MPS110 88 teclas sensitivo", 
+                    "cuotas": 12,
+                    "envio": 2500, 
+                    "precio": 200000,
+                    "cantidad": 4,
+                    "categoria": "Pianos"
+                },
+                {
+                    "codigo": 20, 
+                    "imagen": "assets/yamaha_dgx670.png", 
+                    "marca": "Yamaha",
+                    "modelo": "Dgx670",
+                    "descripcion": "Piano digital Yamaha Dgx670 88 teclas Hammer Usb", 
+                    "cuotas": 12,
+                    "envio": 2500, 
+                    "precio": 220000,
+                    "cantidad": 2,
                     "categoria": "Pianos"
                 }
             ]
@@ -43,6 +91,66 @@
                     "precio": 300000,
                     "cantidad": 5,
                     "categoria": "Guitarras"
+                },
+                {
+                    "codigo": 5, 
+                    "imagen": "assets/fender_paramount_pm1.png", 
+                    "marca": "Fender",
+                    "modelo": "Pm1",
+                    "descripcion": "Guitarra electroacústica Fender Paramount Pm-1 abeto", 
+                    "cuotas": 12,
+                    "envio": 1500, 
+                    "precio": 450000,
+                    "cantidad": 2,
+                    "categoria": "Guitarras"
+                },
+                {
+                    "codigo": 6, 
+                    "imagen": "assets/cort_kx300.png", 
+                    "marca": "Cort",
+                    "modelo": "Kx300",
+                    "descripcion": "Guitarra eléctrica Cort KX300 ETCHED Black Red", 
+                    "cuotas": 12,
+                    "envio": 2000, 
+                    "precio": 230000,
+                    "cantidad": 1,
+                    "categoria": "Guitarras"
+                },
+                {
+                    "codigo": 14, 
+                    "imagen": "assets/cort_ac150.png", 
+                    "marca": "Cort",
+                    "modelo": "Ac150",
+                    "descripcion": "Guitarra clásica Cort Ac150 Ns Natural satinado", 
+                    "cuotas": 12,
+                    "envio": 2000, 
+                    "precio": 100000,
+                    "cantidad": 5,
+                    "categoria": "Guitarras"
+                },
+                {
+                    "codigo": 16, 
+                    "imagen": "assets/fender_dreadnought.png", 
+                    "marca": "Fender",
+                    "modelo": "Dreadnought",
+                    "descripcion": "Guitarra electroacústica Fender Dreadnought Fishman", 
+                    "cuotas": 12,
+                    "envio": 4000, 
+                    "precio": 250000,
+                    "cantidad": 1,
+                    "categoria": "Guitarras"
+                },
+                {
+                    "codigo": 19, 
+                    "imagen": "assets/fender_player.png", 
+                    "marca": "Fender",
+                    "modelo": "Player",
+                    "descripcion": "Guitarra eléctrica Fender Player Stratocaster Mástil", 
+                    "cuotas": 12,
+                    "envio": 7000, 
+                    "precio": 800000,
+                    "cantidad": 2,
+                    "categoria": "Guitarras"
                 }
             ]
         },
@@ -58,6 +166,30 @@
                     "cuotas": 12,
                     "envio": 2500, 
                     "precio": 400000,
+                    "cantidad": 2,
+                    "categoria": "Saxofones"
+                },
+                {
+                    "codigo": 7, 
+                    "imagen": "assets/yamaha_yas480.png", 
+                    "marca": "Yamaha",
+                    "modelo": "Yas480",
+                    "descripcion": "Saxo alto Yamaha Modelo Yas480, con mochila", 
+                    "cuotas": 12,
+                    "envio": 5500, 
+                    "precio": 780000,
+                    "cantidad": 1,
+                    "categoria": "Saxofones"
+                },
+                {
+                    "codigo": 9, 
+                    "imagen": "assets/yamaha_yas62.png", 
+                    "marca": "Yamaha",
+                    "modelo": "Yas62",
+                    "descripcion": "Saxo alto Yamaha Modelo Yas62, con estuche", 
+                    "cuotas": 12,
+                    "envio": 3500, 
+                    "precio": 600000,
                     "cantidad": 2,
                     "categoria": "Saxofones"
                 }
@@ -77,6 +209,59 @@
                     "precio": 100000,
                     "cantidad": 25,
                     "categoria": "Placas"
+                },
+                {
+                    "codigo": 8, 
+                    "imagen": "assets/focusrite_scarlett_2i2.png", 
+                    "marca": "Focusrite",
+                    "modelo": "Scarlett 2i2",
+                    "descripcion": "Placa de sonido Focusrite Scarlett 2i2 3era generación", 
+                    "cuotas": 12,
+                    "envio": 500, 
+                    "precio": 120000,
+                    "cantidad": 12,
+                    "categoria": "Placas"
+                },
+                {
+                    "codigo": 10, 
+                    "imagen": "assets/behringer_umc204.png", 
+                    "marca": "Behringer",
+                    "modelo": "Umc204",
+                    "descripcion": "Placa de sonido Behringer Umc204 Hd Usb Phantom", 
+                    "cuotas": 12,
+                    "envio": 700, 
+                    "precio": 70000,
+                    "cantidad": 4,
+                    "categoria": "Placas"
+                }
+            ]
+        },
+        {
+            "descripcion": "Baterias",
+            "productos": [
+                {
+                    "codigo": 12, 
+                    "imagen": "assets/nux_dm7x.png", 
+                    "marca": "Nux",
+                    "modelo": "Dm7x",
+                    "descripcion": "Batería electrónica Nux DM7X 5 Cuerpos, parches de malla", 
+                    "cuotas": 12,
+                    "envio": 5000, 
+                    "precio": 500000,
+                    "cantidad": 3,
+                    "categoria": "Baterias"
+                },
+                {
+                    "codigo": 15, 
+                    "imagen": "assets/yamaha_rdpof5blg.png", 
+                    "marca": "Yamaha",
+                    "modelo": "RDPOF5BLG",
+                    "descripcion": "Bateria Yamaha RDPOF5BLG Rydeen 5 cuerpos", 
+                    "cuotas": 12,
+                    "envio": 3500, 
+                    "precio": 250000,
+                    "cantidad": 7,
+                    "categoria": "Baterias"
                 }
             ]
         }
