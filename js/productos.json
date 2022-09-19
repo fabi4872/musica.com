@@ -12,7 +12,20 @@
                     "cuotas": 12,
                     "envio": 1500, 
                     "precio": 200000,
-                    "cantidad": 10
+                    "cantidad": 10,
+                    "categoria": "Pianos"
+                },
+                {
+                    "codigo": 11, 
+                    "imagen": "assets/casio_cdp_s110bk.png", 
+                    "marca": "Casio",
+                    "modelo": "Cdp-s110bk",
+                    "descripcion": "Piano digital Casio CDP-S110BK, 88 teclas", 
+                    "cuotas": 12,
+                    "envio": 700, 
+                    "precio": 250000,
+                    "cantidad": 7,
+                    "categoria": "Pianos"
                 }
             ]
         },
@@ -28,7 +41,8 @@
                     "cuotas": 12,
                     "envio": 700, 
                     "precio": 300000,
-                    "cantidad": 5
+                    "cantidad": 5,
+                    "categoria": "Guitarras"
                 }
             ]
         },
@@ -44,7 +58,8 @@
                     "cuotas": 12,
                     "envio": 2500, 
                     "precio": 400000,
-                    "cantidad": 2
+                    "cantidad": 2,
+                    "categoria": "Saxofones"
                 }
             ]
         },
@@ -60,7 +75,8 @@
                     "cuotas": 12,
                     "envio": 350, 
                     "precio": 100000,
-                    "cantidad": 25
+                    "cantidad": 25,
+                    "categoria": "Placas"
                 }
             ]
         }

@@ -37,26 +37,22 @@ function actualizarStockProductoFromCompra({codigo, cantidad}){
 
 function obtenerCategorias(productosFiltros){
     let arrayCategorias = [];
-    let descripcionCategorias = [];
-    productosFiltros.forEach((producto) => {
-        for(const categoria of categorias){
-            if(categoria.productos.includes(producto)){
-                descripcionCategorias = arrayCategorias.map((elemento) => {return elemento.descripcion});
-                if(descripcionCategorias.includes(categoria.descripcion)){
-                    let indice = arrayCategorias.indexOf((cate) => cate.descripcion === categoria.descripcion);
-                    arrayCategorias[indice].productos.push(producto);
-                }
-                else{
-                    let categoriaNueva = {
-                        descripcion: categoria.descripcion,
-                        productos: []
-                    }
-                    categoriaNueva.productos.push(producto);
-                    arrayCategorias.push(categoriaNueva);
-                }
+    for(const producto of productosFiltros){
+        let categoriaExistente = arrayCategorias.find((categoria) => producto.categoria === categoria.descripcion);
+        if(categoriaExistente == undefined){
+            let categoria = {
+                descripcion: producto.categoria,
+                productos: []
+            }
+            categoria.productos.push(producto);
+            arrayCategorias.push(categoria);
+        }
+        else{
+            if(!(categoriaExistente.productos.includes(producto.codigo))){
+                categoriaExistente.productos.push(producto);
             }
         }
-    });
+    }
 
     return arrayCategorias;
 }
