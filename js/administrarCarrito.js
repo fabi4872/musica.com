@@ -255,7 +255,7 @@ function finalizarCompra(){
                 let compra = {
                     numeroPedido: numeroPedido,     
                     productos: productosCarrito,
-                    fecha: new Date().toDateString() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
+                    fecha: new Date().toLocaleDateString() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds(),
                     subtotalEnvios: subtotalEnvios,
                     subtotalPrecios: subtotalPrecios
                 };
